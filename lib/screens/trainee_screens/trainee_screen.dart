@@ -12,31 +12,39 @@ class ClientScreen extends GetView<TraineeController> {
   @override
   Widget build(BuildContext context) {
     controller.initiateClientScreen();
-    return Scaffold(
-        backgroundColor: Colors.black,
-        body: Obx(
-          () => !controller.traineeLoaded.value
-              ? const Center(
-                  child: SpinKitPumpingHeart(
-                    color: Colors.red,
+    return WillPopScope(
+      onWillPop: () async {
+        int _id = controller.trainee!.traineeID!;
+        Get.offNamed('/client?client=$_id&isCoach=false');
+        return true;
+      },
+      child: Scaffold(
+          backgroundColor: Colors.black,
+          body: Obx(
+            () => !controller.traineeLoaded.value
+                ? const Center(
+                    child: SpinKitPumpingHeart(
+                      color: Colors.red,
+                    ),
+                  )
+                : LayoutBuilder(
+                    builder:
+                        (BuildContext context, BoxConstraints constraints) {
+                      if (constraints.maxWidth > pageWidth) {
+                        return Center(
+                          child: Container(
+                            width: pageWidth,
+                            margin: const EdgeInsets.symmetric(horizontal: 16),
+                            child: buildContent(context, controller),
+                          ),
+                        );
+                      } else {
+                        return buildContent(context, controller);
+                      }
+                    },
                   ),
-                )
-              : LayoutBuilder(
-                  builder: (BuildContext context, BoxConstraints constraints) {
-                    if (constraints.maxWidth > pageWidth) {
-                      return Center(
-                        child: Container(
-                          width: pageWidth,
-                          margin: const EdgeInsets.symmetric(horizontal: 16),
-                          child: buildContent(context, controller),
-                        ),
-                      );
-                    } else {
-                      return buildContent(context, controller);
-                    }
-                  },
-                ),
-        ));
+          )),
+    );
   }
 }
 

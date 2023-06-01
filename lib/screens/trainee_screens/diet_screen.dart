@@ -20,7 +20,6 @@ class DietScreen extends StatelessWidget {
           traineeController.isCoach
               ? Get.toNamed('/coach-zone')
               : Get.toNamed('/diet?client=$_id&isCoach=false');
-          print('/diet?client=$_id&isCoach=false');
           return true;
         },
         child: Scaffold(

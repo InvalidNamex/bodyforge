@@ -22,8 +22,7 @@ class WorkoutScreen extends StatelessWidget {
           int _id = traineeController.trainee!.traineeID!;
           traineeController.isCoach
               ? Get.toNamed('/coach-zone')
-              : Get.toNamed('/diet?client=$_id&isCoach=false');
-          print('/diet?client=$_id&isCoach=false');
+              : Get.toNamed('/workout?client=$_id&isCoach=false');
           return true;
         },
         child: Scaffold(
