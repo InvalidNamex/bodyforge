@@ -78,7 +78,7 @@ class BookWidget extends StatelessWidget {
             const SizedBox(height: 10),
             Text(
               books[index].bookName,
-              style: GoogleFonts.aclonica(fontSize: 16, color: Colors.white),
+              style: GoogleFonts.aclonica(fontSize: 16, color: Colors.red),
               overflow: TextOverflow.ellipsis,
               maxLines: 2,
             ),

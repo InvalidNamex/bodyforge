@@ -57,32 +57,27 @@ Widget buildContent(context, HomeController controller) =>
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
-                InkWell(
-                  onTap: () {
-                    Get.toNamed('/coach-login?id=1');
-                  },
-                  child: Container(
-                    alignment: Alignment.center,
-                    margin: const EdgeInsets.only(top: 20, bottom: 10),
-                    padding: const EdgeInsets.all(5),
-                    child: Row(
-                      mainAxisSize: MainAxisSize.min,
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Image.asset('images/icon.png'),
-                        const SizedBox(
-                          width: 10,
-                        ),
-                        Neon(
-                          text: 'BodyForge',
-                          color: Colors.red,
-                          fontSize: 32,
-                          font: NeonFont.Membra,
-                          flickeringText: true,
-                          flickeringLetters: const [0, 4, 8],
-                        ),
-                      ],
-                    ),
+                Container(
+                  alignment: Alignment.center,
+                  margin: const EdgeInsets.only(top: 20, bottom: 10),
+                  padding: const EdgeInsets.all(5),
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Image.asset('images/icon.png'),
+                      const SizedBox(
+                        width: 10,
+                      ),
+                      Neon(
+                        text: 'BodyForge',
+                        color: Colors.red,
+                        fontSize: 32,
+                        font: NeonFont.Membra,
+                        flickeringText: true,
+                        flickeringLetters: const [0, 4, 8],
+                      ),
+                    ],
                   ),
                 ),
                 Expanded(
@@ -97,7 +92,7 @@ Widget buildContent(context, HomeController controller) =>
                             Text(
                               'Featured Coaches:',
                               style: GoogleFonts.aclonica(
-                                  fontSize: 18, color: Colors.red),
+                                  fontSize: 24, color: Colors.white),
                             ),
                             const SizedBox(
                               height: 5,
@@ -126,7 +121,7 @@ Widget buildContent(context, HomeController controller) =>
                         child: Text(
                           'Free Books:',
                           style: GoogleFonts.aclonica(
-                              fontSize: 18, color: Colors.red),
+                              fontSize: 24, color: Colors.white),
                         ),
                       ),
                       Padding(
@@ -140,7 +135,7 @@ Widget buildContent(context, HomeController controller) =>
                         child: Text(
                           'Useful Applications:',
                           style: GoogleFonts.aclonica(
-                              fontSize: 18, color: Colors.red),
+                              fontSize: 24, color: Colors.white),
                         ),
                       ),
                       const SizedBox(
