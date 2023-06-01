@@ -1,0 +1,58 @@
+import 'package:get/get.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
+
+import '../models/app_model.dart';
+import '../models/book_model.dart';
+import '../models/coach_model.dart';
+import '../models/product_model.dart';
+
+class HomeController extends GetxController {
+  static HomeController instance = Get.find();
+  final supabase = Supabase.instance.client;
+  RxList<CoachModel> coachList = RxList<CoachModel>([]);
+  RxList<ProductModel> productList = RxList<ProductModel>([]);
+  RxList<BookModel> bookList = RxList<BookModel>([]);
+  RxList<AppModel> appList = RxList<AppModel>([]);
+  Future getFeaturedCoaches() async {
+    coachList.clear();
+    final data =
+        await supabase.from('coaches').select().eq('coach_isFeatured', true);
+    for (var coach in data) {
+      coachList.add(CoachModel.fromJson(coach));
+    }
+  }
+
+  Future getProducts() async {
+    productList.clear();
+    final data = await supabase.from('products').select();
+    for (var product in data) {
+      productList.add(ProductModel.fromJson(product));
+    }
+  }
+
+  Future getBooks() async {
+    bookList.clear();
+    final data = await supabase.from('books').select();
+    for (var book in data) {
+      bookList.add(BookModel.fromJson(book));
+    }
+  }
+
+  Future getApps() async {
+    appList.clear();
+    final data = await supabase.from('apps').select();
+    for (var app in data) {
+      appList.add(AppModel.fromJson(app));
+    }
+  }
+
+  @override
+  void onInit() {
+    getFeaturedCoaches();
+    //TODO: products
+    // getProducts();
+    getBooks();
+    getApps();
+    super.onInit();
+  }
+}
