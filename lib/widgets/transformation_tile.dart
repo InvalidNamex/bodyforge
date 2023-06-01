@@ -19,11 +19,10 @@ class TransformationTile extends GetView {
         return CarouselSlider.builder(
           options: CarouselOptions(
             autoPlayInterval: const Duration(seconds: 3),
-            enlargeCenterPage: true,
             scrollPhysics: const NeverScrollableScrollPhysics(),
             viewportFraction: screenWidth < pageWidth ? 1 / 2 : 1 / 3,
             reverse: true,
-            autoPlay: true,
+            autoPlay: false,
           ),
           itemCount: transList.length,
           itemBuilder: (BuildContext context, int index, int realIndex) {

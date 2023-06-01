@@ -97,13 +97,6 @@ Widget buildContent(context, CoachController controller) => Container(
                         controller.coach!.coachQuote ?? '',
                         style: GoogleFonts.aclonica(color: Colors.white),
                       ),
-                      const SizedBox(
-                        height: 20,
-                        child: Divider(
-                          height: 2,
-                          color: Colors.red,
-                        ),
-                      ),
                     ],
                   ),
                 )

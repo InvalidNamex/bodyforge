@@ -17,11 +17,12 @@ class TransformationWidget extends GetView<CoachController> {
       height: 200,
       width: 150,
       child: FittedBox(
+        fit: BoxFit.fill,
         child: ImageCompareSlider(
           dividerColor: Colors.red,
           changePositionOnHover: true,
           dividerWidth: 2,
-          handleSize: const Size(50, 50),
+          handleSize: const Size(10, 10),
           handleRadius: BorderRadius.circular(50),
           fillHandle: true,
           itemOne: Image.network(
