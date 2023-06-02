@@ -22,7 +22,7 @@ class TransformationTile extends GetView {
             scrollPhysics: const NeverScrollableScrollPhysics(),
             viewportFraction: screenWidth < pageWidth ? 1 / 2 : 1 / 3,
             reverse: true,
-            autoPlay: false,
+            autoPlay: true,
           ),
           itemCount: transList.length,
           itemBuilder: (BuildContext context, int index, int realIndex) {

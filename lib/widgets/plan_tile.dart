@@ -12,12 +12,6 @@ class PlanTile extends GetView {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        Neon(
-          text: plan.planName,
-          color: Colors.red,
-          font: NeonFont.Membra,
-          fontSize: 36,
-        ),
         const SizedBox(
           height: 5,
         ),
@@ -81,10 +75,48 @@ class PlanTile extends GetView {
   }
 
   Widget container(context) {
-    return Text(
-      plan.planText!,
-      style: GoogleFonts.aclonica(color: Colors.white, fontSize: 28),
-      textAlign: TextAlign.start,
+    return Container(
+      height: 400,
+      padding: const EdgeInsets.all(20),
+      margin: const EdgeInsets.all(20),
+      decoration: const BoxDecoration(
+          image: DecorationImage(
+              image: AssetImage('images/plan-bg.png'), fit: BoxFit.fill)),
+      child: Column(
+        children: [
+          Text(
+            'BODY FORGE',
+            style: GoogleFonts.adamina(color: Colors.red, fontSize: 24),
+          ),
+          Container(
+              padding: const EdgeInsets.all(5),
+              margin: const EdgeInsets.all(5),
+              color: Colors.red,
+              child: Text(
+                plan.planName,
+                style: GoogleFonts.bebasNeue(color: Colors.white, fontSize: 28),
+              )),
+          const SizedBox(
+            height: 7,
+          ),
+          FittedBox(
+            fit: BoxFit.fitWidth,
+            child: Text(
+              plan.planTitle!,
+              style: const TextStyle(color: Colors.red, fontSize: 24),
+              textAlign: TextAlign.start,
+            ),
+          ),
+          FittedBox(
+            fit: BoxFit.fitWidth,
+            child: Text(
+              plan.planText!,
+              style: const TextStyle(color: Colors.white, fontSize: 32),
+              textAlign: TextAlign.start,
+            ),
+          ),
+        ],
+      ),
     );
   }
 }
