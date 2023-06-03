@@ -27,7 +27,7 @@ class WorkoutScreen extends StatelessWidget {
         },
         child: Scaffold(
           backgroundColor: Colors.black,
-          drawer: traineeController.isCoach
+          endDrawer: traineeController.isCoach
               ? Drawer(
                   backgroundColor: Colors.black.withOpacity(0.9),
                   child: ListView(

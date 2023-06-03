@@ -20,6 +20,57 @@ class CoachHome extends GetView<CoachController> {
       },
       child: Scaffold(
         backgroundColor: Colors.black,
+        drawer: Drawer(
+          backgroundColor: Colors.black,
+          child: ListView(
+            shrinkWrap: true,
+            children: [
+              ListTile(
+                leading: const Icon(
+                  Icons.add,
+                  color: Colors.white,
+                ),
+                title: Text(
+                  'New Client',
+                  style: GoogleFonts.aclonica(color: Colors.white),
+                ),
+                onTap: () => Get.defaultDialog(
+                  backgroundColor: Colors.black.withOpacity(0.7),
+                  title: 'New Client',
+                  titleStyle:
+                      GoogleFonts.aclonica(fontSize: 32, color: Colors.red),
+                  content: addNewClient(context, controller),
+                ),
+              ),
+              ListTile(
+                onTap: () {
+                  Get.toNamed('/coach-cpanel');
+                },
+                leading: const Icon(
+                  Icons.admin_panel_settings_outlined,
+                  color: Colors.white,
+                ),
+                title: Text(
+                  'Control Panel',
+                  style: GoogleFonts.aclonica(color: Colors.white),
+                ),
+              ),
+              ListTile(
+                onTap: () {
+                  //TODO:log out
+                },
+                leading: const Icon(
+                  Icons.exit_to_app_outlined,
+                  color: Colors.red,
+                ),
+                title: Text(
+                  'Log out',
+                  style: GoogleFonts.aclonica(color: Colors.white),
+                ),
+              ),
+            ],
+          ),
+        ),
         body: Obx(
           () => controller.isLoading.value
               ? const Center(
@@ -65,37 +116,6 @@ Widget buildContent(context, CoachController controller) => Container(
             title: Text('Clients',
                 style: GoogleFonts.aclonica(color: Colors.white)),
             centerTitle: true,
-            actions: [
-              InkWell(
-                onTap: () => Get.defaultDialog(
-                  backgroundColor: Colors.black.withOpacity(0.7),
-                  title: 'New Client',
-                  titleStyle:
-                      GoogleFonts.aclonica(fontSize: 32, color: Colors.red),
-                  content: addNewClient(context, controller),
-                ),
-                child: Container(
-                  margin: const EdgeInsets.all(5),
-                  padding: const EdgeInsets.all(5),
-                  decoration: BoxDecoration(
-                      border: Border.all(color: Colors.red),
-                      borderRadius: BorderRadius.circular(15)),
-                  child: Row(
-                    children: [
-                      const Icon(
-                        Icons.add,
-                        color: Colors.red,
-                      ),
-                      Text(
-                        'New Client',
-                        style: GoogleFonts.aclonica(
-                            fontSize: 14, color: Colors.white),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-            ],
           ),
           Obx(
             () => controller.traineeList.isEmpty

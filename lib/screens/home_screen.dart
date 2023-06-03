@@ -54,99 +54,144 @@ Widget buildContent(context, HomeController controller) =>
                 fit: BoxFit.fill,
               ),
             ),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: [
-                Container(
-                  alignment: Alignment.center,
-                  margin: const EdgeInsets.only(top: 20, bottom: 10),
-                  padding: const EdgeInsets.all(5),
-                  child: Row(
-                    mainAxisSize: MainAxisSize.min,
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Image.asset('images/icon.png'),
-                      const SizedBox(
-                        width: 10,
-                      ),
-                      Neon(
-                        text: 'BodyForge',
-                        color: Colors.red,
-                        fontSize: 32,
-                        font: NeonFont.Membra,
-                        flickeringText: true,
-                        flickeringLetters: const [0, 4, 8],
-                      ),
-                    ],
+            child: SafeArea(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  Container(
+                    color: Colors.black,
+                    height: 20,
+                    alignment: Alignment.centerLeft,
+                    margin: const EdgeInsets.only(top: 20, bottom: 10),
+                    padding: const EdgeInsets.all(5),
+                    child: Row(
+                      mainAxisSize: MainAxisSize.max,
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        InkWell(
+                          onTap: () {},
+                          child: const Text(
+                            '',
+                            style: TextStyle(color: Colors.white),
+                          ),
+                        ),
+                        InkWell(
+                          onTap: () {},
+                          child: const Text(
+                            '',
+                            style: TextStyle(color: Colors.white),
+                          ),
+                        ),
+                        InkWell(
+                            onTap: () {
+                              //TODO: contact us linktree
+                            },
+                            child: Row(
+                              mainAxisSize: MainAxisSize.min,
+                              children: const [
+                                Icon(
+                                  Icons.call,
+                                  color: Colors.red,
+                                ),
+                                Text(
+                                  'Contact Us',
+                                  style: TextStyle(color: Colors.white),
+                                )
+                              ],
+                            ))
+                      ],
+                    ),
                   ),
-                ),
-                Expanded(
-                  child: ListView(
-                    shrinkWrap: true,
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Text(
-                              'Featured Coaches:',
-                              style: GoogleFonts.aclonica(
-                                  fontSize: 24, color: Colors.white),
-                            ),
-                            const SizedBox(
-                              height: 5,
-                            ),
-                            InkWell(
-                              onTap: () {
-                                Get.toNamed('/coaches');
-                              },
-                              child: Text(
-                                'all coaches',
+                  Container(
+                    alignment: Alignment.center,
+                    padding: const EdgeInsets.all(5),
+                    child: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Image.asset('images/icon.png'),
+                        const SizedBox(
+                          width: 10,
+                        ),
+                        Neon(
+                          text: 'BodyForge',
+                          color: Colors.red,
+                          fontSize: 32,
+                          font: NeonFont.Membra,
+                          flickeringText: true,
+                          flickeringLetters: const [0, 4, 8],
+                        ),
+                      ],
+                    ),
+                  ),
+                  Expanded(
+                    child: ListView(
+                      shrinkWrap: true,
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text(
+                                'Featured Coaches:',
                                 style: GoogleFonts.aclonica(
-                                    fontSize: 14, color: Colors.red.shade700),
+                                    fontSize: 24, color: Colors.white),
                               ),
-                            )
-                          ],
+                              const SizedBox(
+                                height: 5,
+                              ),
+                              InkWell(
+                                onTap: () {
+                                  Get.toNamed('/coaches');
+                                },
+                                child: Text(
+                                  'all coaches',
+                                  style: GoogleFonts.aclonica(
+                                      fontSize: 14, color: Colors.red.shade700),
+                                ),
+                              )
+                            ],
+                          ),
                         ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: FeaturedCoachWidget(
-                          coaches: controller.coachList,
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: FeaturedCoachWidget(
+                            coaches: controller.coachList,
+                          ),
                         ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Text(
-                          'Free Books:',
-                          style: GoogleFonts.aclonica(
-                              fontSize: 24, color: Colors.white),
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Text(
+                            'Free Books:',
+                            style: GoogleFonts.aclonica(
+                                fontSize: 24, color: Colors.white),
+                          ),
                         ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: BookWidget(
-                          books: controller.bookList,
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: BookWidget(
+                            books: controller.bookList,
+                          ),
                         ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Text(
-                          'Useful Applications:',
-                          style: GoogleFonts.aclonica(
-                              fontSize: 24, color: Colors.white),
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Text(
+                            'Useful Applications:',
+                            style: GoogleFonts.aclonica(
+                                fontSize: 24, color: Colors.white),
+                          ),
                         ),
-                      ),
-                      const SizedBox(
-                        height: 10,
-                      ),
-                      AppWidget(
-                        apps: controller.appList,
-                      ),
-                    ],
+                        const SizedBox(
+                          height: 10,
+                        ),
+                        AppWidget(
+                          apps: controller.appList,
+                        ),
+                      ],
+                    ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
           ));

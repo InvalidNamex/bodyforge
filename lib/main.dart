@@ -1,6 +1,8 @@
 import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:flutter_web_plugins/flutter_web_plugins.dart';
+import 'package:ifit/screens/coach_screens/coach_cpanel_screen.dart';
 import '/screens/coach_screens/coach_landing_screen.dart';
 import '/screens/coach_screens/coaches_screen.dart';
 import '/screens/trainee_screens/trainee_screen.dart';
@@ -20,6 +22,7 @@ void main() async {
   await Supabase.initialize(
       url: dotenv.env['SUPABASE_URL']!,
       anonKey: dotenv.env['SUPABASE_ANNON_KEY']!);
+  usePathUrlStrategy();
   runApp(MyApp());
 }
 
@@ -62,6 +65,12 @@ class MyApp extends StatelessWidget {
             page: () => const CoachLandingScreen(),
             binding: CoachBinding(),
             transition: Transition.rightToLeft,
+            transitionDuration: const Duration(milliseconds: 200)),
+        GetPage(
+            name: '/coach-cpanel',
+            page: () => const CoachCPanel(),
+            binding: CoachBinding(),
+            transition: Transition.downToUp,
             transitionDuration: const Duration(milliseconds: 200)),
         GetPage(
             name: '/coaches',

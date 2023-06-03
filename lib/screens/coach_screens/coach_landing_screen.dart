@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:ifit/widgets/transformation_tile.dart';
+import '/widgets/transformation_tile.dart';
 import 'package:neon/neon.dart';
 import '../../controllers/coach_controller.dart';
 import 'package:get/get.dart';
