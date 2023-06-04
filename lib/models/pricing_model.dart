@@ -1,17 +1,17 @@
 class PricingModel {
-  final int planID;
+  final int? planID;
   final int coachID;
   final String? planText;
   final String? planImage;
-  final String planName;
+  final String? planName;
   final String? planTitle;
   final int? planPrice;
   const PricingModel({
-    required this.planID,
+    this.planID,
     required this.coachID,
     this.planText,
     this.planTitle,
-    required this.planName,
+    this.planName,
     this.planImage,
     this.planPrice,
   });
@@ -22,6 +22,14 @@ class PricingModel {
         planTitle: json['plan-title'] as String?,
         planImage: json['plan-image'] as String?,
         planPrice: json['plan-price'] as int?,
-        planName: json['plan-name'] as String,
+        planName: json['plan-name'] as String?,
       );
+  Map<String, dynamic> toJson() => {
+        'coach-id': coachID,
+        'plan-name': planName,
+        'plan-title': planTitle,
+        'plan-text': planText,
+        'plan-price': planPrice,
+        'plan-image': planImage,
+      };
 }

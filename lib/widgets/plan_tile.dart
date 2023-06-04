@@ -99,7 +99,7 @@ class PlanTile extends GetView {
               margin: const EdgeInsets.all(5),
               color: Colors.red,
               child: Text(
-                plan.planName,
+                plan.planName!,
                 style: GoogleFonts.bebasNeue(color: Colors.white, fontSize: 28),
               )),
           const SizedBox(

@@ -253,6 +253,7 @@ Widget buildContent(context) => Obx(
                                                                                 },
                                                                               ),
                                                                               TextFormField(
+                                                                                maxLines: 6,
                                                                                 style: const TextStyle(color: Colors.white),
                                                                                 controller: dietController.mealDesc,
                                                                                 decoration: const InputDecoration(
@@ -367,6 +368,7 @@ Future addMeal({required day}) async {
               },
             ),
             TextFormField(
+              maxLines: 6,
               style: const TextStyle(color: Colors.white),
               controller: dietController.mealDesc,
               decoration: const InputDecoration(

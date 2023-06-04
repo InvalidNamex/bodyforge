@@ -23,6 +23,15 @@ class CoachController extends GetxController {
   RxList<TransformationModel> transList = RxList<TransformationModel>([]);
   RxList<PricingModel> pricingList = RxList<PricingModel>([]);
   final newClientFormKey = GlobalKey<FormState>();
+  final changePasswordFormKey = GlobalKey<FormState>();
+  // plan
+  final addPlanFormKey = GlobalKey<FormState>();
+  TextEditingController planName = TextEditingController();
+  TextEditingController planTitle = TextEditingController();
+  TextEditingController planText = TextEditingController();
+  TextEditingController planPrice = TextEditingController();
+  TextEditingController planImage = TextEditingController();
+
   Rx<DateTime> joinDate = DateTime.now().obs;
 
   Future getTransformations(int id) async {
@@ -136,6 +145,7 @@ class CoachController extends GetxController {
     final int? id = pref.getInt('id');
     if (id != null) {
       await getCoachByID(id);
+      await getPricePlans(id);
     } else {
       Get.offNamed('/');
     }
@@ -149,5 +159,20 @@ class CoachController extends GetxController {
       await getCoachByID(id);
       Get.offNamed('/coach-zone');
     }
+  }
+
+  Future<void> addPlan(planName, planTitle, planText, planPrice) async {
+    await supabase.from('price-plans').insert(PricingModel(
+        coachID: coach!.coachID,
+        planName: planName,
+        planTitle: planTitle,
+        planText: planText,
+        planPrice: planPrice));
+  }
+
+  Future<void> deletePlan(int id) async {
+    await supabase.from('price-plans').delete().eq('id', id);
+    pricingList.clear();
+    await getPricePlans(coach!.coachID);
   }
 }
