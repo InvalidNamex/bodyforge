@@ -24,15 +24,6 @@ class PlanTile extends GetView {
         const SizedBox(
           height: 5,
         ),
-        Center(
-          child: Text(
-            plan.planPrice.toString(),
-            style: GoogleFonts.aclonica(color: Colors.white, fontSize: 28),
-          ),
-        ),
-        const SizedBox(
-          height: 5,
-        ),
         FittedBox(
           fit: BoxFit.fitWidth,
           child: ElevatedButton(
@@ -88,7 +79,8 @@ class PlanTile extends GetView {
                   ColorFilter.mode(Color(0x80000000), BlendMode.darken),
               image: AssetImage('images/plan-bg.png'),
               fit: BoxFit.fill)),
-      child: Column(
+      child: ListView(
+        shrinkWrap: true,
         children: [
           Text(
             'BODY FORGE',

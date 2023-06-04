@@ -18,7 +18,6 @@ Widget plansWidget(
         itemCount: pricingList.length,
         gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
             crossAxisCount: crossAxisCount,
-            // childAspectRatio:
             mainAxisSpacing: 10,
             crossAxisSpacing: 10,
             childAspectRatio: 0.4),

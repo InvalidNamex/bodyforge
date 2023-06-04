@@ -67,108 +67,111 @@ Widget buildContent(context, CoachController controller) => Container(
                 style: GoogleFonts.aclonica(color: Colors.white)),
             centerTitle: true,
           ),
-          ListView(
-            shrinkWrap: true,
-            children: [
-              Container(
-                margin: const EdgeInsets.all(10),
-                padding: const EdgeInsets.all(10),
-                decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(20),
-                    border: Border.all(color: Colors.red),
-                    color: Colors.black.withOpacity(0.9)),
-                child: ListTile(
-                  leading: const Icon(
-                    Icons.person,
-                    color: Colors.red,
-                  ),
-                  title: const Text(
-                    'Change Picture',
-                    style: TextStyle(color: Colors.white),
-                  ),
-                  trailing: imagePicker(
-                    url: controller.coach!.coachImage,
-                    buttonText: 'Choose Image',
-                    imageBucket: 'coach_image',
-                    dataTable: 'coaches',
-                    column: 'id',
-                    value: controller.coach!.coachID.toString(),
+          Expanded(
+            child: ListView(
+              shrinkWrap: true,
+              children: [
+                Container(
+                  margin: const EdgeInsets.all(10),
+                  padding: const EdgeInsets.all(10),
+                  decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(20),
+                      border: Border.all(color: Colors.red),
+                      color: Colors.black.withOpacity(0.9)),
+                  child: ListTile(
+                    leading: const Icon(
+                      Icons.person,
+                      color: Colors.red,
+                    ),
+                    title: const Text(
+                      'Change Picture',
+                      style: TextStyle(color: Colors.white),
+                    ),
+                    trailing: imagePicker(
+                      url: controller.coach!.coachImage,
+                      buttonText: 'Choose Image',
+                      imageBucket: 'coach_image',
+                      dataTable: 'coaches',
+                      column: 'id',
+                      value: controller.coach!.coachID.toString(),
+                    ),
                   ),
                 ),
-              ),
-              Container(
-                margin: const EdgeInsets.all(10),
-                padding: const EdgeInsets.all(10),
-                decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(20),
-                    border: Border.all(color: Colors.red),
-                    color: Colors.black.withOpacity(0.9)),
-                child: ListTile(
-                  leading: const Icon(
-                    Icons.password,
-                    color: Colors.red,
-                  ),
-                  title: const Text(
-                    'Change Password',
-                    style: TextStyle(color: Colors.white),
-                  ),
-                  onTap: () {
-                    Get.defaultDialog(
-                        backgroundColor: Colors.black.withOpacity(0.9),
-                        title: 'Change Password',
-                        titleStyle: const TextStyle(color: Colors.white),
-                        content: Form(
-                          key: controller.changePasswordFormKey,
-                          child: Column(
-                            mainAxisSize: MainAxisSize.min,
-                            children: [
-                              TextFormField(
-                                style: const TextStyle(color: Colors.white),
-                                autofocus: true,
-                                onEditingComplete: () =>
-                                    controller.validatePassword(),
-                                obscureText: true,
-                                controller: controller.coachPassword,
-                                decoration: const InputDecoration(
-                                  border: OutlineInputBorder(
-                                    borderSide: BorderSide(color: Colors.red),
-                                  ),
-                                  hintText: 'Enter password',
-                                  hintStyle: TextStyle(color: Colors.white),
-                                  labelText: 'Password',
-                                  labelStyle: TextStyle(color: Colors.white),
-                                  prefixIcon: Icon(
-                                    Icons.lock,
-                                    color: Colors.red,
+                Container(
+                  margin: const EdgeInsets.all(10),
+                  padding: const EdgeInsets.all(10),
+                  decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(20),
+                      border: Border.all(color: Colors.red),
+                      color: Colors.black.withOpacity(0.9)),
+                  child: ListTile(
+                    leading: const Icon(
+                      Icons.password,
+                      color: Colors.red,
+                    ),
+                    title: const Text(
+                      'Change Password',
+                      style: TextStyle(color: Colors.white),
+                    ),
+                    onTap: () {
+                      Get.defaultDialog(
+                          backgroundColor: Colors.black.withOpacity(0.9),
+                          title: 'Change Password',
+                          titleStyle: const TextStyle(color: Colors.white),
+                          content: Form(
+                            key: controller.changePasswordFormKey,
+                            child: Column(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                TextFormField(
+                                  style: const TextStyle(color: Colors.white),
+                                  autofocus: true,
+                                  onEditingComplete: () =>
+                                      controller.validatePassword(),
+                                  obscureText: true,
+                                  controller: controller.coachPassword,
+                                  decoration: const InputDecoration(
+                                    border: OutlineInputBorder(
+                                      borderSide: BorderSide(color: Colors.red),
+                                    ),
+                                    hintText: 'Enter password',
+                                    hintStyle: TextStyle(color: Colors.white),
+                                    labelText: 'Password',
+                                    labelStyle: TextStyle(color: Colors.white),
+                                    prefixIcon: Icon(
+                                      Icons.lock,
+                                      color: Colors.red,
+                                    ),
                                   ),
                                 ),
-                              ),
-                              const SizedBox(
-                                height: 5,
-                              ),
-                              ElevatedButton(
-                                style: ButtonStyle(
-                                    backgroundColor:
-                                        MaterialStateProperty.all<Color>(
-                                            Colors.red)),
-                                onPressed: () async {
-                                  final supabase = Supabase.instance.client;
-                                  await supabase.from('coaches').update({
-                                    'coach_password':
-                                        controller.coachPassword.text
-                                  }).eq('id', controller.coach!.coachID);
-                                  Get.back();
-                                },
-                                child: const Text('Save Password'),
-                              )
-                            ],
-                          ),
-                        ));
-                  },
+                                const SizedBox(
+                                  height: 5,
+                                ),
+                                ElevatedButton(
+                                  style: ButtonStyle(
+                                      backgroundColor:
+                                          MaterialStateProperty.all<Color>(
+                                              Colors.red)),
+                                  onPressed: () async {
+                                    final supabase = Supabase.instance.client;
+                                    await supabase.from('coaches').update({
+                                      'coach_password':
+                                          controller.coachPassword.text
+                                    }).eq('id', controller.coach!.coachID);
+                                    Get.back();
+                                  },
+                                  child: const Text('Save Password'),
+                                )
+                              ],
+                            ),
+                          ));
+                    },
+                  ),
                 ),
-              ),
-              managePlans(controller, context)
-            ],
+                managePlans(controller, context),
+                manageTransformations(controller, context)
+              ],
+            ),
           ),
         ],
       ),
@@ -204,7 +207,10 @@ Widget managePlans(CoachController controller, context) {
                 )
               : ListView.builder(
                   shrinkWrap: true,
-                  itemCount: controller.pricingList.length,
+                  itemCount: controller.pricingList
+                      .where((item) => item.planName != null)
+                      .toList()
+                      .length,
                   itemBuilder: (context, index) => ListTile(
                     isThreeLine: true,
                     trailing: IconButton(
@@ -213,12 +219,17 @@ Widget managePlans(CoachController controller, context) {
                         color: Colors.red,
                       ),
                       onPressed: () async {
-                        await controller
-                            .deletePlan(controller.pricingList[index].planID!);
+                        await controller.deletePlan(controller.pricingList
+                            .where((item) => item.planName != null)
+                            .toList()[index]
+                            .planID!);
                       },
                     ),
                     title: Text(
-                      controller.pricingList[index].planName!,
+                      controller.pricingList
+                          .where((item) => item.planName != null)
+                          .toList()[index]
+                          .planName!,
                       style: const TextStyle(color: Colors.red),
                     ),
                     subtitle: Column(
@@ -226,7 +237,7 @@ Widget managePlans(CoachController controller, context) {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          '${controller.pricingList[index].planTitle}',
+                          '${controller.pricingList.where((item) => item.planName != null).toList()[index].planTitle}',
                           style: const TextStyle(
                               color: Colors.white, fontWeight: FontWeight.w800),
                         ),
@@ -235,7 +246,7 @@ Widget managePlans(CoachController controller, context) {
                         ),
                         Center(
                           child: Text(
-                            'Price: ${controller.pricingList[index].planPrice}',
+                            'Price: ${controller.pricingList.where((item) => item.planName != null).toList()[index].planPrice}',
                             style: const TextStyle(
                                 color: Colors.white,
                                 fontWeight: FontWeight.w800,
@@ -243,6 +254,59 @@ Widget managePlans(CoachController controller, context) {
                           ),
                         ),
                       ],
+                    ),
+                  ),
+                ),
+        ),
+      ],
+    ),
+  );
+}
+
+Widget manageTransformations(CoachController controller, context) {
+  return Container(
+    margin: const EdgeInsets.all(10),
+    padding: const EdgeInsets.all(10),
+    decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(20),
+        border: Border.all(color: Colors.red),
+        color: Colors.black.withOpacity(0.9)),
+    child: ExpansionTile(
+      iconColor: Colors.red,
+      collapsedIconColor: Colors.white,
+      collapsedTextColor: Colors.white,
+      leading: IconButton(
+          onPressed: () => Get.toNamed('/add-transformation'),
+          icon: const Icon(
+            Icons.add,
+            color: Colors.white,
+          )),
+      title: Text(
+        'Transformations',
+        style: GoogleFonts.aclonica(color: Colors.white),
+      ),
+      children: <Widget>[
+        Obx(
+          () => controller.transList.isEmpty
+              ? const SpinKitPumpingHeart(
+                  color: Colors.red,
+                )
+              : ListView.builder(
+                  shrinkWrap: true,
+                  itemCount: controller.transList.length,
+                  itemBuilder: (context, index) => ListTile(
+                    trailing: IconButton(
+                        icon: const Icon(
+                          Icons.delete_outline,
+                          color: Colors.red,
+                        ),
+                        onPressed: () async {
+                          await controller.deleteTrans(
+                              controller.transList[index].transformationID);
+                        }),
+                    title: Text(
+                      '${controller.transList[index].name}',
+                      style: const TextStyle(color: Colors.red),
                     ),
                   ),
                 ),

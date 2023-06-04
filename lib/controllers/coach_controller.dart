@@ -26,11 +26,16 @@ class CoachController extends GetxController {
   final changePasswordFormKey = GlobalKey<FormState>();
   // plan
   final addPlanFormKey = GlobalKey<FormState>();
+  final addTransformationFormKey = GlobalKey<FormState>();
   TextEditingController planName = TextEditingController();
   TextEditingController planTitle = TextEditingController();
   TextEditingController planText = TextEditingController();
   TextEditingController planPrice = TextEditingController();
   TextEditingController planImage = TextEditingController();
+  // trans
+  TextEditingController transName = TextEditingController();
+  TextEditingController transBefore = TextEditingController();
+  TextEditingController transAfter = TextEditingController();
 
   Rx<DateTime> joinDate = DateTime.now().obs;
 
@@ -146,6 +151,7 @@ class CoachController extends GetxController {
     if (id != null) {
       await getCoachByID(id);
       await getPricePlans(id);
+      await getTransformations(id);
     } else {
       Get.offNamed('/');
     }
@@ -174,5 +180,11 @@ class CoachController extends GetxController {
     await supabase.from('price-plans').delete().eq('id', id);
     pricingList.clear();
     await getPricePlans(coach!.coachID);
+  }
+
+  Future<void> deleteTrans(int id) async {
+    await supabase.from('transformation').delete().eq('id', id);
+    transList.clear();
+    await getTransformations(coach!.coachID);
   }
 }

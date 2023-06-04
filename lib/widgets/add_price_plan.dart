@@ -12,31 +12,37 @@ class PricePlan extends GetView<CoachController> {
   @override
   Widget build(BuildContext context) {
     controller.populateCoach();
-    return Scaffold(
-      backgroundColor: Colors.black,
-      body: Obx(
-        () => controller.isLoading.value
-            ? const Center(
-                child: SpinKitPumpingHeart(
-                  color: Colors.red,
+    return WillPopScope(
+      onWillPop: () async {
+        Get.toNamed('/coach-cpanel');
+        return true;
+      },
+      child: Scaffold(
+        backgroundColor: Colors.black,
+        body: Obx(
+          () => controller.isLoading.value
+              ? const Center(
+                  child: SpinKitPumpingHeart(
+                    color: Colors.red,
+                  ),
+                )
+              : LayoutBuilder(
+                  builder: (BuildContext context, BoxConstraints constraints) {
+                    if (constraints.maxWidth > pageWidth) {
+                      return Center(
+                        child: Container(
+                          alignment: Alignment.topCenter,
+                          width: pageWidth,
+                          margin: const EdgeInsets.symmetric(horizontal: 16),
+                          child: buildContent(context, controller),
+                        ),
+                      );
+                    } else {
+                      return buildContent(context, controller);
+                    }
+                  },
                 ),
-              )
-            : LayoutBuilder(
-                builder: (BuildContext context, BoxConstraints constraints) {
-                  if (constraints.maxWidth > pageWidth) {
-                    return Center(
-                      child: Container(
-                        alignment: Alignment.topCenter,
-                        width: pageWidth,
-                        margin: const EdgeInsets.symmetric(horizontal: 16),
-                        child: buildContent(context, controller),
-                      ),
-                    );
-                  } else {
-                    return buildContent(context, controller);
-                  }
-                },
-              ),
+        ),
       ),
     );
   }
@@ -203,8 +209,11 @@ class PricePlan extends GetView<CoachController> {
                         final planText = controller.planText.text;
                         final planPrice = controller.planPrice.text;
 
-                        await controller.addPlan(planName, planTitle, planText,
-                            int.parse(planPrice));
+                        await controller
+                            .addPlan(planName, planTitle, planText,
+                                int.parse(planPrice))
+                            .whenComplete(() => Get.snackbar('Plan Saved',
+                                'Your new plan was saved successfully'));
                         controller.planName.clear();
                         controller.planTitle.clear();
                         controller.planText.clear();

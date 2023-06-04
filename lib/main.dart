@@ -2,6 +2,7 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_web_plugins/flutter_web_plugins.dart';
+import 'package:ifit/widgets/add_transformation.dart';
 import '/screens/coach_screens/coach_cpanel_screen.dart';
 import '/widgets/add_price_plan.dart';
 import '/screens/coach_screens/coach_landing_screen.dart';
@@ -96,6 +97,12 @@ class MyApp extends StatelessWidget {
             page: () => const PricePlan(),
             binding: CoachBinding(),
             transition: Transition.downToUp,
+            transitionDuration: const Duration(milliseconds: 200)),
+        GetPage(
+            name: '/add-transformation',
+            page: () => const TransformationManagement(),
+            binding: CoachBinding(),
+            transition: Transition.upToDown,
             transitionDuration: const Duration(milliseconds: 200)),
         GetPage(
             name: '/client',

@@ -55,19 +55,6 @@ class CoachHome extends GetView<CoachController> {
                   style: GoogleFonts.aclonica(color: Colors.white),
                 ),
               ),
-              ListTile(
-                onTap: () {
-                  //TODO:log out
-                },
-                leading: const Icon(
-                  Icons.exit_to_app_outlined,
-                  color: Colors.red,
-                ),
-                title: Text(
-                  'Log out',
-                  style: GoogleFonts.aclonica(color: Colors.white),
-                ),
-              ),
             ],
           ),
         ),
