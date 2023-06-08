@@ -2,7 +2,8 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_web_plugins/flutter_web_plugins.dart';
-import 'package:ifit/widgets/add_transformation.dart';
+import 'package:ifit/screens/pricing.dart';
+import '/widgets/add_transformation.dart';
 import '/screens/coach_screens/coach_cpanel_screen.dart';
 import '/widgets/add_price_plan.dart';
 import '/screens/coach_screens/coach_landing_screen.dart';
@@ -59,6 +60,12 @@ class MyApp extends StatelessWidget {
         GetPage(
             name: '/',
             page: () => const HomeScreen(),
+            binding: HomeBinding(),
+            transition: Transition.leftToRight,
+            transitionDuration: const Duration(milliseconds: 200)),
+        GetPage(
+            name: '/pricing',
+            page: () => const PricingScreen(),
             binding: HomeBinding(),
             transition: Transition.leftToRight,
             transitionDuration: const Duration(milliseconds: 200)),

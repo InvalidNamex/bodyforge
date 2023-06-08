@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:get/get.dart';
+import 'package:universal_html/html.dart' as html;
+import 'package:url_launcher/url_launcher.dart';
 import '/controllers/home_controller.dart';
 import '/widgets/featured_coach_widget.dart';
 import 'package:neon/neon.dart';
@@ -60,31 +63,65 @@ Widget buildContent(context, HomeController controller) =>
                 children: [
                   Container(
                     color: Colors.black,
-                    height: 20,
+                    height: 50,
                     alignment: Alignment.centerLeft,
                     margin: const EdgeInsets.only(top: 20, bottom: 10),
-                    padding: const EdgeInsets.all(5),
                     child: Row(
                       mainAxisSize: MainAxisSize.max,
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
                         InkWell(
-                          onTap: () {},
-                          child: const Text(
-                            '',
-                            style: TextStyle(color: Colors.white),
+                          onTap: () {
+                            Get.toNamed('/pricing');
+                          },
+                          child: Row(
+                            children: const [
+                              Icon(
+                                Icons.monetization_on_outlined,
+                                color: Colors.red,
+                              ),
+                              SizedBox(
+                                width: 5,
+                              ),
+                              Text(
+                                'Pricing',
+                                style: TextStyle(color: Colors.white),
+                              ),
+                            ],
                           ),
                         ),
                         InkWell(
-                          onTap: () {},
-                          child: const Text(
-                            '',
-                            style: TextStyle(color: Colors.white),
+                          onTap: () async {
+                            var bytes = await rootBundle.load(
+                                "images/policies.pdf"); // location of your asset file
+                            final blob = html.Blob([bytes], 'application/pdf');
+                            final url = html.Url.createObjectUrlFromBlob(blob);
+                            html.window.open(url, "_blank");
+                            html.Url.revokeObjectUrl(url);
+                          },
+                          child: Row(
+                            children: const [
+                              Icon(
+                                Icons.info_outline,
+                                color: Colors.red,
+                              ),
+                              SizedBox(
+                                width: 5,
+                              ),
+                              Text(
+                                'policies',
+                                style: TextStyle(color: Colors.white),
+                              ),
+                            ],
                           ),
                         ),
                         InkWell(
-                            onTap: () {
-                              //TODO: contact us linktree
+                            onTap: () async {
+                              Uri url =
+                                  Uri.parse('https://linktr.ee/a7madhassan');
+                              if (!await launchUrl(url)) {
+                                Get.snackbar('Error', 'Please contact support');
+                              }
                             },
                             child: Row(
                               mainAxisSize: MainAxisSize.min,
@@ -92,6 +129,9 @@ Widget buildContent(context, HomeController controller) =>
                                 Icon(
                                   Icons.call,
                                   color: Colors.red,
+                                ),
+                                SizedBox(
+                                  width: 5,
                                 ),
                                 Text(
                                   'Contact Us',

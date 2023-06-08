@@ -1,4 +1,5 @@
 import 'package:get/get.dart';
+import 'package:ifit/models/web_pricing_model.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 import '../models/app_model.dart';
@@ -13,6 +14,32 @@ class HomeController extends GetxController {
   RxList<ProductModel> productList = RxList<ProductModel>([]);
   RxList<BookModel> bookList = RxList<BookModel>([]);
   RxList<AppModel> appList = RxList<AppModel>([]);
+  List<WebPricingModel> webPriceList = const [
+    WebPricingModel(
+        planName: 'Bronze',
+        planTitle: 'Monthly Plan',
+        planPrice: 250,
+        planText:
+            'With monthly plan feel free to create as many diet plans and work-out plans for your clients and share it with them'),
+    WebPricingModel(
+        planName: 'Silver',
+        planTitle: '6 Months Plan',
+        planPrice: 1200,
+        planText:
+            'With 6 months plan you are saving 300 \n Create unlimited diet plans and work-out plans and share it with your clients'),
+    WebPricingModel(
+        planName: 'Gold',
+        planTitle: '12 Months Plan',
+        planPrice: 2000,
+        planText:
+            'Starting from gold plan get featured among our coaches for more opportunities to get new clients'),
+    WebPricingModel(
+        planName: 'Diamond',
+        planTitle: '24 Months Plan',
+        planPrice: 4000,
+        planText:
+            'With Diamond plan you get a free add for 14 days of being featured on our Home Page and alse be featured in out sponsored ads'),
+  ];
   Future getFeaturedCoaches() async {
     coachList.clear();
     final data =

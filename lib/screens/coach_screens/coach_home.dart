@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:get/get.dart';
 import '/controllers/coach_controller.dart';
 import 'package:intl/intl.dart';
+import 'package:flutter/services.dart';
 
 import '../../constants.dart';
 
@@ -204,7 +204,7 @@ Widget buildContent(context, CoachController controller) => Container(
       ),
     );
 
-Widget addNewClient(context, controller) {
+Widget addNewClient(context, CoachController controller) {
   return Form(
     key: controller.newClientFormKey,
     child: Column(
