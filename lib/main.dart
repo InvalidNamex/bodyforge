@@ -1,7 +1,7 @@
 import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
-import 'package:flutter_web_plugins/flutter_web_plugins.dart';
+// import 'package:flutter_web_plugins/flutter_web_plugins.dart';
 import 'package:ifit/screens/pricing.dart';
 import '/widgets/add_transformation.dart';
 import '/screens/coach_screens/coach_cpanel_screen.dart';
@@ -25,7 +25,7 @@ void main() async {
   await Supabase.initialize(
       url: dotenv.env['SUPABASE_URL']!,
       anonKey: dotenv.env['SUPABASE_ANNON_KEY']!);
-  usePathUrlStrategy();
+  // usePathUrlStrategy();
   runApp(MyApp());
 }
 
