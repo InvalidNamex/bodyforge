@@ -1,8 +1,8 @@
 import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
-// import 'package:flutter_web_plugins/flutter_web_plugins.dart';
-import 'package:ifit/screens/pricing.dart';
+import 'package:flutter_web_plugins/flutter_web_plugins.dart';
+import '/screens/pricing.dart';
 import '/widgets/add_transformation.dart';
 import '/screens/coach_screens/coach_cpanel_screen.dart';
 import '/widgets/add_price_plan.dart';
@@ -25,8 +25,8 @@ void main() async {
   await Supabase.initialize(
       url: dotenv.env['SUPABASE_URL']!,
       anonKey: dotenv.env['SUPABASE_ANNON_KEY']!);
-  // usePathUrlStrategy();
   runApp(MyApp());
+  PathUrlStrategy();
 }
 
 class MyCustomScrollBehavior extends MaterialScrollBehavior {
@@ -46,6 +46,24 @@ class MyApp extends StatelessWidget {
     return GetMaterialApp(
       title: 'BodyForge',
       initialRoute: '/',
+      enableLog: true,
+      unknownRoute: GetPage(name: '/404', page: () => const NotFound()),
+      logWriterCallback: (text, {isError = false}) {
+        if (isError) {
+          Get.defaultDialog(
+              backgroundColor: Colors.black,
+              titleStyle: const TextStyle(color: Colors.red),
+              title: 'Error',
+              content: Text(
+                text,
+                maxLines: 10,
+                overflow: TextOverflow.ellipsis,
+                style: const TextStyle(color: Colors.white),
+              ));
+        } else {
+          print(text);
+        }
+      },
       fallbackLocale: const Locale('en', 'US'),
       scrollBehavior: MyCustomScrollBehavior(),
       debugShowCheckedModeBanner: false,
@@ -57,6 +75,10 @@ class MyApp extends StatelessWidget {
         );
       },
       getPages: [
+        GetPage(
+          name: '/404',
+          page: () => const NotFound(),
+        ),
         GetPage(
             name: '/',
             page: () => const HomeScreen(),
