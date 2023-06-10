@@ -5,11 +5,13 @@ class CoachModel {
   final String coachPassword;
   final String? coachQuote;
   final bool? isFeatured;
+  final bool isVisible;
   const CoachModel({
     required this.coachName,
     required this.coachPassword,
     required this.coachID,
     required this.coachImage,
+    required this.isVisible,
     this.isFeatured = false,
     this.coachQuote,
   });
@@ -20,5 +22,6 @@ class CoachModel {
         coachPassword: json['coach_password'] as String,
         coachQuote: json['coach_quote'] as String?,
         isFeatured: json['coach_isFeatured'] as bool,
+        isVisible: json['coach_isVisible'] as bool,
       );
 }

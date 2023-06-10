@@ -67,8 +67,9 @@ class CoachController extends GetxController {
 
   Future getCoaches() async {
     coachesList.clear();
-    final data = await supabase.from('coaches').select();
-    for (var coach in data) {
+    final data =
+        await supabase.from('coaches').select().eq('coach_isVisible', true);
+    for (Map<String, dynamic> coach in data) {
       coachesList.add(CoachModel.fromJson(coach));
     }
   }

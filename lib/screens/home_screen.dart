@@ -48,7 +48,6 @@ Widget buildContent(context, HomeController controller) =>
             ),
           )
         : Container(
-            padding: const EdgeInsets.all(5),
             alignment: Alignment.center,
             constraints: BoxConstraints(maxWidth: pageWidth),
             decoration: const BoxDecoration(
@@ -57,181 +56,192 @@ Widget buildContent(context, HomeController controller) =>
                 fit: BoxFit.fill,
               ),
             ),
-            child: SafeArea(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: [
-                  Container(
-                    color: Colors.black,
-                    height: 50,
-                    alignment: Alignment.centerLeft,
-                    margin: const EdgeInsets.only(top: 20, bottom: 10),
-                    child: Row(
-                      mainAxisSize: MainAxisSize.max,
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: [
-                        InkWell(
-                          onTap: () {
-                            Get.toNamed('/pricing');
-                          },
-                          child: Row(
-                            children: const [
-                              Icon(
-                                Icons.monetization_on_outlined,
-                                color: Colors.red,
-                              ),
-                              SizedBox(
-                                width: 5,
-                              ),
-                              Text(
-                                'Pricing',
-                                style: TextStyle(color: Colors.white),
-                              ),
-                            ],
-                          ),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                Container(
+                  decoration: BoxDecoration(
+                    gradient: LinearGradient(
+                      begin: Alignment.topLeft,
+                      end: Alignment.bottomLeft,
+                      colors: [
+                        Colors.white.withOpacity(1.0),
+                        Colors.white.withOpacity(0.5),
+                        Colors.white.withOpacity(0.3),
+                        Colors.white.withOpacity(0.0),
+                      ],
+                      stops: const [0.0, 0.3, 0.5, 1.0],
+                    ),
+                  ),
+                  padding: EdgeInsets.zero,
+                  height: 80,
+                  alignment: Alignment.bottomCenter,
+                  margin: const EdgeInsets.only(bottom: 10),
+                  child: Row(
+                    mainAxisSize: MainAxisSize.max,
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      InkWell(
+                        onTap: () {
+                          Get.toNamed('/pricing');
+                        },
+                        child: Row(
+                          children: const [
+                            Icon(
+                              Icons.monetization_on_outlined,
+                              color: Colors.red,
+                            ),
+                            SizedBox(
+                              width: 5,
+                            ),
+                            Text(
+                              'Pricing',
+                              style: TextStyle(color: Colors.white),
+                            ),
+                          ],
                         ),
-                        InkWell(
+                      ),
+                      InkWell(
+                        onTap: () async {
+                          var bytes = await rootBundle.load(
+                              "images/policies.pdf"); // location of your asset file
+                          final blob = html.Blob([bytes], 'application/pdf');
+                          final url = html.Url.createObjectUrlFromBlob(blob);
+                          html.window.open(url, "_blank");
+                          html.Url.revokeObjectUrl(url);
+                        },
+                        child: Row(
+                          children: const [
+                            Icon(
+                              Icons.info_outline,
+                              color: Colors.red,
+                            ),
+                            SizedBox(
+                              width: 5,
+                            ),
+                            Text(
+                              'policies',
+                              style: TextStyle(color: Colors.white),
+                            ),
+                          ],
+                        ),
+                      ),
+                      InkWell(
                           onTap: () async {
-                            var bytes = await rootBundle.load(
-                                "images/policies.pdf"); // location of your asset file
-                            final blob = html.Blob([bytes], 'application/pdf');
-                            final url = html.Url.createObjectUrlFromBlob(blob);
-                            html.window.open(url, "_blank");
-                            html.Url.revokeObjectUrl(url);
+                            Uri url =
+                                Uri.parse('https://linktr.ee/a7madhassan');
+                            if (!await launchUrl(url)) {
+                              Get.snackbar('Error', 'Please contact support');
+                            }
                           },
                           child: Row(
+                            mainAxisSize: MainAxisSize.min,
                             children: const [
                               Icon(
-                                Icons.info_outline,
+                                Icons.call,
                                 color: Colors.red,
                               ),
                               SizedBox(
                                 width: 5,
                               ),
                               Text(
-                                'policies',
+                                'Contact Us',
                                 style: TextStyle(color: Colors.white),
-                              ),
-                            ],
-                          ),
-                        ),
-                        InkWell(
-                            onTap: () async {
-                              Uri url =
-                                  Uri.parse('https://linktr.ee/a7madhassan');
-                              if (!await launchUrl(url)) {
-                                Get.snackbar('Error', 'Please contact support');
-                              }
-                            },
-                            child: Row(
-                              mainAxisSize: MainAxisSize.min,
-                              children: const [
-                                Icon(
-                                  Icons.call,
-                                  color: Colors.red,
-                                ),
-                                SizedBox(
-                                  width: 5,
-                                ),
-                                Text(
-                                  'Contact Us',
-                                  style: TextStyle(color: Colors.white),
-                                )
-                              ],
-                            ))
-                      ],
-                    ),
-                  ),
-                  Container(
-                    alignment: Alignment.center,
-                    padding: const EdgeInsets.all(5),
-                    child: Row(
-                      mainAxisSize: MainAxisSize.min,
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Image.asset('images/icon.png'),
-                        const SizedBox(
-                          width: 10,
-                        ),
-                        Neon(
-                          text: 'BodyForge',
-                          color: Colors.red,
-                          fontSize: 32,
-                          font: NeonFont.Membra,
-                          flickeringText: true,
-                          flickeringLetters: const [0, 4, 8],
-                        ),
-                      ],
-                    ),
-                  ),
-                  Expanded(
-                    child: ListView(
-                      shrinkWrap: true,
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Text(
-                                'Featured Coaches:',
-                                style: GoogleFonts.aclonica(
-                                    fontSize: 24, color: Colors.white),
-                              ),
-                              const SizedBox(
-                                height: 5,
-                              ),
-                              InkWell(
-                                onTap: () {
-                                  Get.toNamed('/coaches');
-                                },
-                                child: Text(
-                                  'all coaches',
-                                  style: GoogleFonts.aclonica(
-                                      fontSize: 14, color: Colors.red.shade700),
-                                ),
                               )
                             ],
-                          ),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: FeaturedCoachWidget(
-                            coaches: controller.coachList,
-                          ),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Text(
-                            'Free Books:',
-                            style: GoogleFonts.aclonica(
-                                fontSize: 24, color: Colors.white),
-                          ),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: BookWidget(
-                            books: controller.bookList,
-                          ),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Text(
-                            'Useful Applications:',
-                            style: GoogleFonts.aclonica(
-                                fontSize: 24, color: Colors.white),
-                          ),
-                        ),
-                        const SizedBox(
-                          height: 10,
-                        ),
-                        AppWidget(
-                          apps: controller.appList,
-                        ),
-                      ],
-                    ),
+                          ))
+                    ],
                   ),
-                ],
-              ),
+                ),
+                Container(
+                  alignment: Alignment.center,
+                  padding: const EdgeInsets.all(5),
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Image.asset('images/icon.png'),
+                      const SizedBox(
+                        width: 10,
+                      ),
+                      Neon(
+                        text: 'BodyForge',
+                        color: Colors.red,
+                        fontSize: 32,
+                        font: NeonFont.Membra,
+                        flickeringText: true,
+                        flickeringLetters: const [0, 4, 8],
+                      ),
+                    ],
+                  ),
+                ),
+                Expanded(
+                  child: ListView(
+                    shrinkWrap: true,
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text(
+                              'Featured Coaches:',
+                              style: GoogleFonts.aclonica(
+                                  fontSize: 24, color: Colors.white),
+                            ),
+                            const SizedBox(
+                              height: 5,
+                            ),
+                            InkWell(
+                              onTap: () {
+                                Get.toNamed('/coaches');
+                              },
+                              child: Text(
+                                'all coaches',
+                                style: GoogleFonts.aclonica(
+                                    fontSize: 14, color: Colors.red.shade700),
+                              ),
+                            )
+                          ],
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: FeaturedCoachWidget(
+                          coaches: controller.coachList,
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Text(
+                          'Free Books:',
+                          style: GoogleFonts.aclonica(
+                              fontSize: 24, color: Colors.white),
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: BookWidget(
+                          books: controller.bookList,
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Text(
+                          'Useful Applications:',
+                          style: GoogleFonts.aclonica(
+                              fontSize: 24, color: Colors.white),
+                        ),
+                      ),
+                      const SizedBox(
+                        height: 10,
+                      ),
+                      AppWidget(
+                        apps: controller.appList,
+                      ),
+                    ],
+                  ),
+                ),
+              ],
             ),
           ));
