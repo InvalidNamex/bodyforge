@@ -39,8 +39,10 @@ dependencies:
   flutter_dotenv: ^5.0.2
   supabase_flutter: ^1.8.0
   get:
-#  get: 5.0.0-release-candidate-4
+  video_player: ^2.4.7
+  animated_text_kit: ^4.2.2
   neon: ^0.1.0
+  csslib: 0.17.0
   intl: ^0.18.1
   flutter_spinkit: ^5.2.0
   carousel_slider: ^4.2.1

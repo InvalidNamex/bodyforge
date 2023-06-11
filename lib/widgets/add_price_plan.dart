@@ -223,9 +223,9 @@ class PricePlan extends GetView<CoachController> {
                     child: const Text('Save Plan'),
                   ),
                 ),
-                Stack(
+                const Stack(
                   alignment: Alignment.center,
-                  children: const [
+                  children: [
                     Divider(
                       height: 10,
                       color: Colors.red,

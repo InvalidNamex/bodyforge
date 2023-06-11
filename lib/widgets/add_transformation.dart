@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
-import '/widgets/plan_image_picker.dart';
+import '/widgets/trans_image_picker.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
+import '../models/transformation_model.dart';
 import '../constants.dart';
 
 import '../controllers/coach_controller.dart';
@@ -79,7 +81,7 @@ class TransformationManagement extends GetView<CoachController> {
                         color: Colors.black.withOpacity(0.9)),
                     child: TextFormField(
                       style: const TextStyle(color: Colors.white),
-                      controller: controller.transName,
+                      controller: coachController.transName,
                       decoration: const InputDecoration(
                         border: OutlineInputBorder(
                           borderSide: BorderSide(color: Colors.red),
@@ -117,12 +119,11 @@ class TransformationManagement extends GetView<CoachController> {
                       'Before Picture',
                       style: TextStyle(color: Colors.white),
                     ),
-                    trailing: planImagePicker(
-                      buttonText: 'Choose Image',
-                      imageBucket: 'pricing',
-                      dataTable: 'price-plans',
-                      coachID: controller.coach!.coachID,
-                    ),
+                    trailing: transImagePicker(
+                        isBefore: true,
+                        coachID: controller.coach!.coachID,
+                        before: coachController.transBefore,
+                        after: coachController.transAfter),
                   ),
                 ),
                 // before image
@@ -142,14 +143,11 @@ class TransformationManagement extends GetView<CoachController> {
                       'After Picture',
                       style: TextStyle(color: Colors.white),
                     ),
-                    trailing: planImagePicker(
-                      buttonText: controller.transAfter.text.isEmpty
-                          ? 'Choose Image'
-                          : 'Done',
-                      imageBucket: 'pricing',
-                      dataTable: 'price-plans',
-                      coachID: controller.coach!.coachID,
-                    ),
+                    trailing: transImagePicker(
+                        isBefore: false,
+                        coachID: controller.coach!.coachID,
+                        before: coachController.transBefore,
+                        after: coachController.transAfter),
                   ),
                 ),
                 Container(
@@ -160,21 +158,41 @@ class TransformationManagement extends GetView<CoachController> {
                         backgroundColor:
                             MaterialStateProperty.all<Color>(Colors.red)),
                     onPressed: () async {
-                      if (controller.addPlanFormKey.currentState!.validate()) {
-                        final planName = controller.planName.text;
-                        final planTitle = controller.planTitle.text;
-                        final planText = controller.planText.text;
-                        final planPrice = controller.planPrice.text;
-
-                        await controller
-                            .addPlan(planName, planTitle, planText,
-                                int.parse(planPrice))
-                            .whenComplete(() => Get.snackbar('Trans Saved',
-                                'Your new trans was saved successfully'));
-                        controller.planName.clear();
-                        controller.planTitle.clear();
-                        controller.planText.clear();
-                        controller.planPrice.clear();
+                      print('''
+                              coach ID: ${controller.coach!.coachID},
+                              before: ${coachController.transBefore.text},
+                              after: ${coachController.transAfter.text},
+                              name: ${coachController.transName.text},
+                              ''');
+                      try {
+                        if (controller.addTransformationFormKey.currentState!
+                            .validate()) {
+                          if (coachController.transBefore.text != '' ||
+                              coachController.transBefore.text.isNotEmpty) {
+                            if (coachController.transAfter.text != '' ||
+                                coachController.transAfter.text.isNotEmpty) {
+                              Get.defaultDialog(
+                                  title: '',
+                                  content: const SpinKitPumpingHeart(
+                                      color: Colors.red),
+                                  backgroundColor:
+                                      Colors.black.withOpacity(0.7));
+                              final supabase = Supabase.instance.client;
+                              await supabase
+                                  .from('transformation')
+                                  .insert(TransformationModel(
+                                    coachID: controller.coach!.coachID,
+                                    before: coachController.transBefore.text,
+                                    after: coachController.transAfter.text,
+                                    name: coachController.transAfter.text,
+                                  ))
+                                  .whenComplete(() => Get.back());
+                            }
+                          }
+                        } else {}
+                      } catch (e) {
+                        Get.back();
+                        Get.snackbar('error', e.toString());
                       }
                     },
                     child: const Text('Save Transformation'),

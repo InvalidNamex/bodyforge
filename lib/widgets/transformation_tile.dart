@@ -29,8 +29,8 @@ class TransformationTile extends GetView {
             return Padding(
               padding: const EdgeInsets.all(8.0),
               child: TransformationWidget(
-                before: transList[index].before,
-                after: transList[index].after,
+                before: transList[index].before!,
+                after: transList[index].after!,
               ),
             );
           },

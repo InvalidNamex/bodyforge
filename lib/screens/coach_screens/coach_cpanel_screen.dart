@@ -302,7 +302,7 @@ Widget manageTransformations(CoachController controller, context) {
                         ),
                         onPressed: () async {
                           await controller.deleteTrans(
-                              controller.transList[index].transformationID);
+                              controller.transList[index].transformationID!);
                         }),
                     title: Text(
                       '${controller.transList[index].name}',

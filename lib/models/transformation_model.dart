@@ -1,22 +1,28 @@
 class TransformationModel {
-  final int transformationID;
+  final int? transformationID;
   final int coachID;
-  final String before;
+  final String? before;
   final String? name;
-  final String after;
+  final String? after;
   const TransformationModel({
-    required this.transformationID,
+    this.transformationID,
     required this.coachID,
-    required this.before,
+    this.before,
     this.name,
-    required this.after,
+    this.after,
   });
   static TransformationModel fromJson(Map<String, dynamic> json) =>
       TransformationModel(
-        transformationID: json['id'] as int,
+        transformationID: json['id'] as int?,
         coachID: json['coach-id'] as int,
-        before: json['before'] as String,
+        before: json['before'] as String?,
         name: json['name'] as String?,
-        after: json['after'] as String,
+        after: json['after'] as String?,
       );
+  Map<String, dynamic> toJson() => {
+        'coach-id': coachID,
+        'before': before,
+        'name': name,
+        'after': after,
+      };
 }
