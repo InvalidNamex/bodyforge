@@ -13,11 +13,12 @@ class FeaturedCoachWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     final screenWidth = MediaQuery.of(context).size.width;
     return Column(
+      mainAxisAlignment: MainAxisAlignment.end,
       children: [
         Obx(
           () => coaches.isEmpty
-              ? const SpinKitPumpingHeart(
-                  color: Colors.red,
+              ? SpinKitPumpingHeart(
+                  color: accentColor,
                 )
               : CarouselSlider.builder(
                   options: CarouselOptions(
@@ -50,15 +51,8 @@ class FeaturedCoachWidget extends StatelessWidget {
             height: 200,
             width: 150,
             decoration: BoxDecoration(
+              border: Border.all(color: accentColor),
               borderRadius: BorderRadius.circular(20),
-              boxShadow: [
-                BoxShadow(
-                  color: Colors.red.withOpacity(0.3),
-                  spreadRadius: 5,
-                  blurRadius: 5,
-                  offset: const Offset(0, 2),
-                ),
-              ],
               image: DecorationImage(
                 image: NetworkImage(coaches[index].coachImage),
                 fit: BoxFit.fill,
@@ -68,7 +62,7 @@ class FeaturedCoachWidget extends StatelessWidget {
           const SizedBox(height: 10),
           Text(
             coaches[index].coachName,
-            style: GoogleFonts.aclonica(fontSize: 18, color: Colors.red),
+            style: GoogleFonts.aclonica(fontSize: 18, color: accentColor),
           ),
         ],
       ),

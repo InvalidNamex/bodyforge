@@ -1,10 +1,10 @@
-import 'dart:io';
-
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:get/get.dart';
+
+import '../constants.dart';
 
 Widget imagePicker({
   required String url,
@@ -18,7 +18,7 @@ Widget imagePicker({
 
   return ElevatedButton(
     style: ButtonStyle(
-        backgroundColor: MaterialStateProperty.all<Color>(Colors.red)),
+        backgroundColor: MaterialStateProperty.all<Color>(accentColor)),
     onPressed: () async {
       try {
         final picker = ImagePicker();
@@ -42,12 +42,11 @@ Widget imagePicker({
         }
       } catch (e) {
         Get.snackbar('Error', e.toString());
-        print(e.toString());
       }
     },
     child: Text(
       buttonText,
-      style: const TextStyle(color: Colors.white),
+      style: TextStyle(color: darkColor),
     ),
   );
 }

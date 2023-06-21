@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:neon/neon.dart';
+import '../constants.dart';
 import '../models/pricing_model.dart';
 
 class PlanTile extends GetView {
@@ -11,6 +11,7 @@ class PlanTile extends GetView {
   @override
   Widget build(BuildContext context) {
     return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
       children: [
         const SizedBox(
           height: 5,
@@ -28,39 +29,14 @@ class PlanTile extends GetView {
           fit: BoxFit.fitWidth,
           child: ElevatedButton(
             style: ButtonStyle(
-                backgroundColor: MaterialStateProperty.all<Color>(Colors.red)),
+              backgroundColor: MaterialStateProperty.all<Color>(accentColor),
+            ),
             onPressed: () {
-              Get.defaultDialog(
-                  backgroundColor: Colors.black.withOpacity(0.8),
-                  title: 'whatsapp us with a screenshot of your transaction',
-                  titleStyle: const TextStyle(color: Colors.white),
-                  content: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Image.asset(
-                        'images/vfcash.webp',
-                        height: 80,
-                        width: 100,
-                      ),
-                      Text(
-                        'Coach: $coachName',
-                        style: GoogleFonts.aclonica(color: Colors.red),
-                      ),
-                      Text(
-                        'Price: ${plan.planPrice}',
-                        style: GoogleFonts.aclonica(color: Colors.white),
-                      ),
-                      Text(
-                        'Number: +201002777664',
-                        style: GoogleFonts.aclonica(color: Colors.red),
-                      ),
-                    ],
-                  ));
+              //TODO: payments
             },
             child: Text(
               'Subscribe Now',
-              style: GoogleFonts.aclonica(color: Colors.black, fontSize: 24),
+              style: GoogleFonts.aclonica(color: darkColor, fontSize: 24),
             ),
           ),
         ),
@@ -70,6 +46,7 @@ class PlanTile extends GetView {
 
   Widget container(context) {
     return Container(
+      alignment: Alignment.topCenter,
       height: 400,
       padding: const EdgeInsets.all(20),
       margin: const EdgeInsets.all(20),
@@ -82,17 +59,17 @@ class PlanTile extends GetView {
       child: ListView(
         shrinkWrap: true,
         children: [
-          Text(
-            'BODY FORGE',
-            style: GoogleFonts.adamina(color: Colors.red, fontSize: 24),
-          ),
           Container(
               padding: const EdgeInsets.all(5),
               margin: const EdgeInsets.all(5),
-              color: Colors.red,
+              color: accentColor,
               child: Text(
                 plan.planName!,
-                style: GoogleFonts.bebasNeue(color: Colors.white, fontSize: 28),
+                textAlign: TextAlign.center,
+                style: GoogleFonts.aclonica(
+                    color: darkColor,
+                    fontSize: 28,
+                    fontWeight: FontWeight.bold),
               )),
           const SizedBox(
             height: 7,
@@ -100,7 +77,7 @@ class PlanTile extends GetView {
           Text(
             plan.planTitle!,
             style: GoogleFonts.cairo(
-                color: Colors.red, fontSize: 24, fontWeight: FontWeight.bold),
+                color: accentColor, fontSize: 24, fontWeight: FontWeight.bold),
             textAlign: TextAlign.center,
           ),
           FittedBox(
@@ -108,9 +85,7 @@ class PlanTile extends GetView {
             child: Text(
               plan.planText!,
               style: GoogleFonts.cairoPlay(
-                  color: Colors.white,
-                  fontSize: 28,
-                  fontWeight: FontWeight.bold),
+                  color: lightColor, fontSize: 28, fontWeight: FontWeight.bold),
               textAlign: TextAlign.start,
             ),
           ),

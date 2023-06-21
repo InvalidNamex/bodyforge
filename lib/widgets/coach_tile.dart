@@ -43,15 +43,15 @@ class CoachTile extends GetView {
                             fit: BoxFit.fill),
                         borderRadius: BorderRadius.circular(25),
                         border: Border.all(
-                          color: Colors.red,
+                          color: accentColor,
                         ),
                       ),
                     ),
                     const SizedBox(height: 10),
                     Text(
                       coachList[index].coachName,
-                      style:
-                          GoogleFonts.aclonica(color: Colors.red, fontSize: 18),
+                      style: GoogleFonts.aclonica(
+                          color: accentColor, fontSize: 18),
                     ),
                   ],
                 ),

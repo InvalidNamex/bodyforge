@@ -1,10 +1,12 @@
 import 'package:dropdown_search/dropdown_search.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:url_launcher/url_launcher_string.dart';
+import '../../helpers/loader_helper.dart';
+import '../../models/custom_workout_model.dart';
+import '../../widgets/scaffold_widget.dart';
 import '/../constants.dart';
 import '/../models/workout_model.dart';
 import '/../models/exercise_model.dart';
@@ -17,252 +19,206 @@ class WorkoutScreen extends StatelessWidget {
     traineeController.getTrainee();
     String? isCoach = Get.parameters['isCoach'] ?? 'true';
     traineeController.isCoach = isCoach.toLowerCase() != "false";
-    return WillPopScope(
-        onWillPop: () async {
-          int _id = traineeController.trainee!.traineeID!;
-          traineeController.isCoach
-              ? Get.toNamed('/coach-zone')
-              : Get.toNamed('/workout?client=$_id&isCoach=false');
-          return true;
-        },
-        child: Scaffold(
-          backgroundColor: Colors.black,
-          endDrawer: traineeController.isCoach
-              ? Drawer(
-                  backgroundColor: Colors.black.withOpacity(0.9),
-                  child: ListView(
-                    children: [
-                      ListTile(
-                        onTap: () {
-                          Get.defaultDialog(
-                              backgroundColor: Colors.black.withOpacity(0.8),
-                              title: traineeController.trainee!.traineeName,
-                              titleStyle: GoogleFonts.lato(color: Colors.white),
-                              content: Column(
-                                children: [
-                                  Text(
-                                    traineeController.trainee!.traineeGoal,
-                                    style:
-                                        GoogleFonts.lato(color: Colors.white),
-                                  ),
-                                  Text(
-                                    traineeController.trainee!.traineeJoinDate,
-                                    style:
-                                        GoogleFonts.lato(color: Colors.white),
-                                  )
-                                ],
-                              ));
-                        },
-                        leading: const Icon(
-                          Icons.person,
-                          color: Colors.white,
-                        ),
-                        title: Text(
-                          'Client Info',
-                          style: GoogleFonts.aclonica(color: Colors.white),
-                        ),
-                      ),
-                      ListTile(
-                        onTap: () {
-                          String id =
-                              traineeController.trainee!.traineeID.toString();
-                          String uri = Uri.base.toString();
-                          String route = uri.replaceAll('/coach-zone',
-                              '/client?client=$id&isCoach=false');
-                          Clipboard.setData(ClipboardData(text: route));
-                          Get.snackbar(
-                              'Link copied', 'Client link has been copied');
-                        },
-                        leading: const Icon(
-                          Icons.share_outlined,
-                          color: Colors.white,
-                        ),
-                        title: Text(
-                          'Share Workout',
-                          style: GoogleFonts.aclonica(color: Colors.white),
-                        ),
-                      ),
-                      ListTile(
-                        leading: const Icon(
-                          Icons.delete_forever,
-                          color: Colors.red,
-                        ),
-                        title: Text(
-                          'Delete Workout Plan',
-                          style: GoogleFonts.aclonica(color: Colors.white),
-                        ),
-                        onTap: () {
-                          Get.defaultDialog(
-                              backgroundColor: Colors.black,
-                              title: 'Delete Workout Plan',
-                              titleStyle:
-                                  GoogleFonts.aclonica(color: Colors.white),
-                              middleText:
-                                  'all Workout plan for the client will be deleted!',
-                              middleTextStyle:
-                                  GoogleFonts.aclonica(color: Colors.white),
-                              onCancel: () => Get.back(),
-                              buttonColor: Colors.red,
-                              confirmTextColor: Colors.white,
-                              cancelTextColor: Colors.red,
-                              onConfirm: () async {
-                                await workoutController.deleteWorkoutPlan();
-                                Get.back();
-                              });
-                        },
-                      )
-                    ],
-                  ),
-                )
-              : null,
-          body: LayoutBuilder(
-            builder: (BuildContext context, BoxConstraints constraints) {
-              if (constraints.maxWidth > pageWidth) {
-                return Center(
-                  child: Container(
-                    alignment: Alignment.topCenter,
-                    width: pageWidth,
-                    margin: const EdgeInsets.symmetric(horizontal: 16),
-                    child: buildContent(context),
-                  ),
-                );
-              } else {
-                return buildContent(context);
-              }
-            },
-          ),
-        ));
+    return MyScaffold(
+        drawer: traineeController.isCoach ? drawer() : null,
+        buildContent: buildContent(context));
   }
 }
 
+Drawer drawer() => Drawer(
+      backgroundColor: darkColor.withOpacity(0.9),
+      child: ListView(
+        children: [
+          ListTile(
+            onTap: () {
+              Get.defaultDialog(
+                  backgroundColor: darkColor.withOpacity(0.8),
+                  title: traineeController.trainee!.traineeName,
+                  titleStyle: GoogleFonts.lato(color: lightColor),
+                  content: Column(
+                    children: [
+                      Text(
+                        traineeController.trainee!.traineeGoal,
+                        style: GoogleFonts.lato(color: lightColor),
+                      ),
+                      Text(
+                        traineeController.trainee!.traineeJoinDate,
+                        style: GoogleFonts.lato(color: lightColor),
+                      )
+                    ],
+                  ));
+            },
+            leading: Icon(
+              Icons.person,
+              color: lightColor,
+            ),
+            title: Text(
+              'Client Info',
+              style: GoogleFonts.aclonica(color: lightColor),
+            ),
+          ),
+          ListTile(
+            onTap: () {
+              String id = traineeController.trainee!.traineeID.toString();
+              String uri = Uri.base.toString();
+              String route = uri.replaceAll(
+                  '/coach-zone', '/client?client=$id&isCoach=false');
+              Clipboard.setData(ClipboardData(text: route));
+              Get.snackbar('Link copied', 'Client link has been copied');
+            },
+            leading: Icon(
+              Icons.share_outlined,
+              color: lightColor,
+            ),
+            title: Text(
+              'Share Workout',
+              style: GoogleFonts.aclonica(color: lightColor),
+            ),
+          ),
+          ListTile(
+            leading: Icon(
+              Icons.delete_forever,
+              color: accentColor,
+            ),
+            title: Text(
+              'Delete Workout Plan',
+              style: GoogleFonts.aclonica(color: lightColor),
+            ),
+            onTap: () {
+              Get.defaultDialog(
+                  backgroundColor: darkColor,
+                  title: 'Delete Workout Plan',
+                  titleStyle: GoogleFonts.aclonica(color: lightColor),
+                  middleText:
+                      'all Workout plan for the client will be deleted!',
+                  middleTextStyle: GoogleFonts.aclonica(color: lightColor),
+                  onCancel: () => Get.back(),
+                  buttonColor: accentColor,
+                  confirmTextColor: lightColor,
+                  cancelTextColor: accentColor,
+                  onConfirm: () async {
+                    await workoutController.deleteWorkoutPlan();
+                    Get.back();
+                  });
+            },
+          )
+        ],
+      ),
+    );
 Widget buildContent(context) => Obx(
       () => !traineeController.traineeLoaded.value
-          ? const Center(
-              child: SpinKitPumpingHeart(
-                color: Colors.red,
-              ),
+          ? Center(
+              child: loader(),
             )
-          : Container(
-              alignment: Alignment.topCenter,
-              constraints: BoxConstraints(maxWidth: pageWidth),
-              decoration: BoxDecoration(
-                image: DecorationImage(
-                  image: NetworkImage(coachController.coach!.coachImage),
-                  fit: BoxFit.fill,
-                ),
+          : Column(mainAxisAlignment: MainAxisAlignment.start, children: [
+              AppBar(
+                backgroundColor: darkColor.withOpacity(0.7),
+                title: Text(traineeController.trainee!.traineeName),
+                centerTitle: true,
               ),
-              child:
-                  Column(mainAxisAlignment: MainAxisAlignment.start, children: [
-                AppBar(
-                  backgroundColor: Colors.black.withOpacity(0.7),
-                  title: Text(traineeController.trainee!.traineeName),
-                  centerTitle: true,
-                ),
-                Expanded(
-                  child: ListView.builder(
-                      shrinkWrap: true,
-                      itemCount: 7,
-                      itemBuilder: (context, day) {
-                        return Container(
-                          margin: const EdgeInsets.all(10),
-                          padding: const EdgeInsets.all(10),
-                          decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(20),
-                              border: Border.all(color: Colors.red),
-                              color: Colors.black.withOpacity(0.9)),
-                          child: ExpansionTile(
-                            iconColor: Colors.red,
-                            collapsedIconColor: Colors.white,
-                            collapsedTextColor: Colors.white,
-                            leading: traineeController.isCoach
-                                ? IconButton(
-                                    onPressed: () async {
-                                      await addWorkout(day: day + 1);
-                                    },
-                                    icon: const Icon(
-                                      Icons.add,
-                                      color: Colors.white,
-                                    ))
-                                : null,
-                            title: Text(
-                              'Day ${day + 1}',
-                              style: GoogleFonts.aclonica(color: Colors.white),
-                            ),
-                            subtitle: Text('Day ${day + 1} workout'),
-                            children: <Widget>[
-                              Obx(
-                                () => ListView.builder(
-                                    shrinkWrap: true,
-                                    itemCount: workoutController.workoutsList
-                                        .where((item) => item.day == day + 1)
-                                        .toList()
-                                        .length,
-                                    itemBuilder: (context, index) => ListTile(
-                                          onTap: () async {
-                                            String url = workoutController
-                                                .workoutsList
-                                                .where((item) =>
-                                                    item.day == day + 1)
-                                                .toList()[index]
-                                                .url;
-                                            if (await canLaunchUrlString(url)) {
-                                              await launchUrlString(url);
-                                            } else {
-                                              Get.defaultDialog(
-                                                title: 'Sorry',
-                                                content: const Text(
-                                                    'Video is no longer available'),
-                                              );
-                                            }
-                                          },
-                                          isThreeLine: true,
-                                          leading: traineeController.isCoach
-                                              ? IconButton(
-                                                  icon: const Icon(
-                                                    Icons.edit,
-                                                    color: Colors.white,
-                                                  ),
-                                                  onPressed: () =>
-                                                      editExercise(day, index))
-                                              : null,
-                                          trailing: traineeController.isCoach
-                                              ? IconButton(
-                                                  icon: const Icon(
-                                                    Icons.delete_outline,
-                                                    color: Colors.red,
-                                                  ),
-                                                  onPressed: () async {
-                                                    int _id = workoutController
-                                                        .workoutsList
-                                                        .where((item) =>
-                                                            item.day == day + 1)
-                                                        .toList()[index]
-                                                        .workoutID!;
-                                                    await workoutController
-                                                        .deleteExercise(_id);
-                                                  },
-                                                )
-                                              : null,
-                                          title: Text(
-                                            '${workoutController.workoutsList.where((item) => item.day == day + 1).toList()[index].title} ',
-                                            style: const TextStyle(
-                                                color: Colors.red),
-                                          ),
-                                          subtitle: Text(
-                                            '${workoutController.workoutsList.where((item) => item.day == day + 1).toList()[index].desc} ',
-                                            style: const TextStyle(
-                                                color: Colors.white,
-                                                fontWeight: FontWeight.w800),
-                                          ),
-                                        )),
-                              ),
-                            ],
+              Expanded(
+                child: ListView.builder(
+                    shrinkWrap: true,
+                    itemCount: 7,
+                    itemBuilder: (context, day) {
+                      return Container(
+                        margin: const EdgeInsets.all(10),
+                        padding: const EdgeInsets.all(10),
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(20),
+                            border: Border.all(color: accentColor),
+                            color: darkColor.withOpacity(0.9)),
+                        child: ExpansionTile(
+                          iconColor: accentColor,
+                          collapsedIconColor: lightColor,
+                          collapsedTextColor: lightColor,
+                          leading: traineeController.isCoach
+                              ? IconButton(
+                                  onPressed: () async {
+                                    await addWorkout(day: day + 1);
+                                  },
+                                  icon: Icon(
+                                    Icons.add,
+                                    color: lightColor,
+                                  ))
+                              : null,
+                          title: Text(
+                            'Day ${day + 1}',
+                            style: GoogleFonts.aclonica(color: lightColor),
                           ),
-                        );
-                      }),
-                ),
-              ]),
-            ),
+                          subtitle: Text('Day ${day + 1} workout'),
+                          children: <Widget>[
+                            Obx(
+                              () => ListView.builder(
+                                  shrinkWrap: true,
+                                  itemCount: workoutController.workoutsList
+                                      .where((item) => item.day == day + 1)
+                                      .toList()
+                                      .length,
+                                  itemBuilder: (context, index) => ListTile(
+                                        onTap: () async {
+                                          String url = workoutController
+                                              .workoutsList
+                                              .where(
+                                                  (item) => item.day == day + 1)
+                                              .toList()[index]
+                                              .url;
+                                          if (await canLaunchUrlString(url)) {
+                                            await launchUrlString(url);
+                                          } else {
+                                            Get.defaultDialog(
+                                              title: 'Sorry',
+                                              content: const Text(
+                                                  'Video is no longer available'),
+                                            );
+                                          }
+                                        },
+                                        isThreeLine: true,
+                                        leading: traineeController.isCoach
+                                            ? IconButton(
+                                                icon: Icon(
+                                                  Icons.edit,
+                                                  color: lightColor,
+                                                ),
+                                                onPressed: () =>
+                                                    editExercise(day, index))
+                                            : null,
+                                        trailing: traineeController.isCoach
+                                            ? IconButton(
+                                                icon: Icon(
+                                                  Icons.delete_outline,
+                                                  color: accentColor,
+                                                ),
+                                                onPressed: () async {
+                                                  int _id = workoutController
+                                                      .workoutsList
+                                                      .where((item) =>
+                                                          item.day == day + 1)
+                                                      .toList()[index]
+                                                      .workoutID!;
+                                                  await workoutController
+                                                      .deleteExercise(_id);
+                                                },
+                                              )
+                                            : null,
+                                        title: Text(
+                                          '${workoutController.workoutsList.where((item) => item.day == day + 1).toList()[index].title} ',
+                                          style: TextStyle(color: accentColor),
+                                        ),
+                                        subtitle: Text(
+                                          '${workoutController.workoutsList.where((item) => item.day == day + 1).toList()[index].desc} ',
+                                          style: TextStyle(
+                                              color: lightColor,
+                                              fontWeight: FontWeight.w800),
+                                        ),
+                                      )),
+                            ),
+                          ],
+                        ),
+                      );
+                    }),
+              ),
+            ]),
     );
 
 Future editExercise(day, index) async {
@@ -274,9 +230,9 @@ Future editExercise(day, index) async {
       .where((item) => item.day == day + 1)
       .toList()[index];
   Get.defaultDialog(
-      backgroundColor: Colors.black.withOpacity(0.9),
+      backgroundColor: darkColor.withOpacity(0.9),
       title: 'Edit workout',
-      titleStyle: GoogleFonts.aclonica(color: Colors.white),
+      titleStyle: GoogleFonts.aclonica(color: lightColor),
       content: Form(
         key: workoutController.editWorkoutKey,
         child: Column(
@@ -285,7 +241,7 @@ Future editExercise(day, index) async {
               margin: const EdgeInsets.symmetric(vertical: 5),
               padding: const EdgeInsets.symmetric(horizontal: 20),
               decoration: BoxDecoration(
-                  color: Colors.red.withOpacity(0.7),
+                  color: accentColor.withOpacity(0.7),
                   borderRadius: BorderRadius.circular(50)),
               child: DropdownSearch<String>(
                 popupProps: PopupProps.menu(
@@ -301,13 +257,15 @@ Future editExercise(day, index) async {
                   "Leg",
                   "Cardio & abs"
                 ],
-                dropdownDecoratorProps: const DropDownDecoratorProps(
-                  baseStyle: TextStyle(color: Colors.white),
+                dropdownDecoratorProps: DropDownDecoratorProps(
+                  baseStyle: TextStyle(color: lightColor),
                   dropdownSearchDecoration: InputDecoration(
                     labelText: "Muscle Group",
-                    labelStyle: TextStyle(color: Colors.white),
+                    labelStyle: TextStyle(
+                        color: lightColor, fontWeight: FontWeight.bold),
                     hintText: "Choose a muscle to train",
-                    hintStyle: TextStyle(color: Colors.white),
+                    hintStyle: TextStyle(
+                        color: lightColor, fontWeight: FontWeight.bold),
                   ),
                 ),
                 onChanged: (String? muscle) async {
@@ -321,7 +279,7 @@ Future editExercise(day, index) async {
                 margin: const EdgeInsets.symmetric(vertical: 5),
                 padding: const EdgeInsets.symmetric(horizontal: 30),
                 decoration: BoxDecoration(
-                    color: Colors.white.withOpacity(0.7),
+                    color: lightColor.withOpacity(0.7),
                     borderRadius: BorderRadius.circular(50)),
                 child: DropdownSearch<String>(
                   popupProps: PopupProps.menu(
@@ -331,13 +289,13 @@ Future editExercise(day, index) async {
                   items: workoutController.exercisesList
                       .map((ExerciseModel model) => model.exercise)
                       .toList(),
-                  dropdownDecoratorProps: const DropDownDecoratorProps(
-                    baseStyle: TextStyle(color: Colors.red),
-                    dropdownSearchDecoration: InputDecoration(
+                  dropdownDecoratorProps: DropDownDecoratorProps(
+                    baseStyle: TextStyle(color: accentColor),
+                    dropdownSearchDecoration: const InputDecoration(
                       labelText: "Exercise",
-                      labelStyle: TextStyle(color: Colors.red),
+                      labelStyle: TextStyle(fontWeight: FontWeight.bold),
                       hintText: "Choose an exercise",
-                      hintStyle: TextStyle(color: Colors.red),
+                      hintStyle: TextStyle(fontWeight: FontWeight.bold),
                     ),
                   ),
                   onChanged: (String? muscle) {
@@ -356,14 +314,14 @@ Future editExercise(day, index) async {
               ),
             ),
             TextFormField(
-              style: const TextStyle(color: Colors.white),
+              style: TextStyle(color: lightColor),
               controller: workoutController.workoutDesc,
               decoration: InputDecoration(
                 border: OutlineInputBorder(
-                    borderSide: const BorderSide(color: Colors.red),
+                    borderSide: BorderSide(color: accentColor),
                     borderRadius: BorderRadius.circular(50)),
                 labelText: 'workout description',
-                labelStyle: const TextStyle(color: Colors.white),
+                labelStyle: TextStyle(color: lightColor),
                 hintText:
                     'enter workout description (bench press 12 reps 4 sets)',
               ),
@@ -380,7 +338,7 @@ Future editExercise(day, index) async {
             ElevatedButton(
                 style: ButtonStyle(
                     backgroundColor:
-                        MaterialStateProperty.all<Color>(Colors.red)),
+                        MaterialStateProperty.all<Color>(accentColor)),
                 onPressed: () async {
                   final workoutTitle = workoutController.workoutTitle.text;
                   final workoutDesc = workoutController.workoutDesc.text;
@@ -399,7 +357,7 @@ Future editExercise(day, index) async {
                 },
                 child: Text(
                   'Edit workout',
-                  style: GoogleFonts.aclonica(color: Colors.white),
+                  style: GoogleFonts.aclonica(color: darkColor),
                 ))
           ],
         ),
@@ -411,8 +369,8 @@ Future addWorkout({required day}) async {
   workoutController.workoutTitle.text = 'Bench press';
   Get.defaultDialog(
       title: 'Add Workout',
-      titleStyle: GoogleFonts.lato(color: Colors.white),
-      backgroundColor: Colors.black.withOpacity(0.9),
+      titleStyle: GoogleFonts.lato(color: lightColor),
+      backgroundColor: darkColor.withOpacity(0.9),
       content: Form(
         key: workoutController.addWorkoutKey,
         child: Column(
@@ -421,7 +379,7 @@ Future addWorkout({required day}) async {
               margin: const EdgeInsets.symmetric(vertical: 5),
               padding: const EdgeInsets.symmetric(horizontal: 20),
               decoration: BoxDecoration(
-                  color: Colors.red.withOpacity(0.7),
+                  color: accentColor.withOpacity(0.7),
                   borderRadius: BorderRadius.circular(50)),
               child: DropdownSearch<String>(
                 popupProps: PopupProps.menu(
@@ -437,13 +395,13 @@ Future addWorkout({required day}) async {
                   "Leg",
                   "Cardio & abs"
                 ],
-                dropdownDecoratorProps: const DropDownDecoratorProps(
-                  baseStyle: TextStyle(color: Colors.white),
+                dropdownDecoratorProps: DropDownDecoratorProps(
+                  baseStyle: TextStyle(color: lightColor),
                   dropdownSearchDecoration: InputDecoration(
                     labelText: "Muscle Group",
-                    labelStyle: TextStyle(color: Colors.white),
+                    labelStyle: TextStyle(color: lightColor),
                     hintText: "Choose a muscle to train",
-                    hintStyle: TextStyle(color: Colors.white),
+                    hintStyle: TextStyle(color: lightColor),
                   ),
                 ),
                 onChanged: (String? muscle) async {
@@ -457,7 +415,7 @@ Future addWorkout({required day}) async {
                 margin: const EdgeInsets.symmetric(vertical: 5),
                 padding: const EdgeInsets.symmetric(horizontal: 30),
                 decoration: BoxDecoration(
-                    color: Colors.white.withOpacity(0.7),
+                    color: lightColor.withOpacity(0.7),
                     borderRadius: BorderRadius.circular(50)),
                 child: DropdownSearch<String>(
                   popupProps: PopupProps.menu(
@@ -468,37 +426,48 @@ Future addWorkout({required day}) async {
                       .map((ExerciseModel model) => model.exercise)
                       .toList(),
                   dropdownDecoratorProps: const DropDownDecoratorProps(
-                    baseStyle: TextStyle(color: Colors.red),
+                    baseStyle: TextStyle(fontWeight: FontWeight.bold),
                     dropdownSearchDecoration: InputDecoration(
                       labelText: "Exercise",
-                      labelStyle: TextStyle(color: Colors.red),
+                      labelStyle: TextStyle(fontWeight: FontWeight.bold),
                       hintText: "Choose an exercise",
-                      hintStyle: TextStyle(color: Colors.red),
+                      hintStyle: TextStyle(fontWeight: FontWeight.bold),
                     ),
                   ),
+                  selectedItem: 'Bench press',
                   onChanged: (String? muscle) {
                     workoutController.workoutTitle.text =
                         muscle ?? 'Bench press';
-                    String url = workoutController.exercisesList
-                        .where((e) =>
-                            e.exercise == workoutController.workoutTitle.text)
-                        .first
-                        .url;
-                    workoutController.workoutUrl.text = url;
+
+                    ExerciseModel? selectedExercise =
+                        workoutController.exercisesList.firstWhereOrNull((e) =>
+                            e.exercise == workoutController.workoutTitle.text);
+
+                    if (selectedExercise != null) {
+                      CustomWorkoutModel? customWorkout = workoutController
+                          .custExercisesList
+                          .firstWhereOrNull((c) =>
+                              c.exerciseID == selectedExercise.exerciseID);
+
+                      if (customWorkout != null) {
+                        workoutController.workoutUrl.text = customWorkout.url;
+                      } else {
+                        workoutController.workoutUrl.text =
+                            selectedExercise.url;
+                      }
+                    }
                   },
-                  selectedItem: 'Bench press',
                 ),
               ),
             ),
             TextFormField(
-              style: const TextStyle(color: Colors.white),
+              style: TextStyle(color: lightColor),
               controller: workoutController.workoutDesc,
               decoration: InputDecoration(
-                border: OutlineInputBorder(
-                    borderSide: const BorderSide(color: Colors.red),
-                    borderRadius: BorderRadius.circular(50)),
+                border:
+                    OutlineInputBorder(borderRadius: BorderRadius.circular(50)),
                 labelText: 'workout description',
-                labelStyle: const TextStyle(color: Colors.white),
+                labelStyle: TextStyle(color: lightColor),
                 hintText:
                     'enter workout description (military press 10 reps 3 sets)',
               ),
@@ -515,7 +484,7 @@ Future addWorkout({required day}) async {
             ElevatedButton(
                 style: ButtonStyle(
                     backgroundColor:
-                        MaterialStateProperty.all<Color>(Colors.red)),
+                        MaterialStateProperty.all<Color>(accentColor)),
                 onPressed: () async {
                   int order = workoutController.workoutsList
                           .where((item) => item.day == day)
@@ -540,7 +509,7 @@ Future addWorkout({required day}) async {
                 },
                 child: Text(
                   'Add workout',
-                  style: GoogleFonts.aclonica(color: Colors.white),
+                  style: GoogleFonts.aclonica(color: darkColor),
                 ))
           ],
         ),

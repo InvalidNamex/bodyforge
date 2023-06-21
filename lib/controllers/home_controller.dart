@@ -1,3 +1,6 @@
+import 'dart:async';
+
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:ifit/models/web_pricing_model.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
@@ -9,7 +12,9 @@ import '../models/product_model.dart';
 
 class HomeController extends GetxController {
   static HomeController instance = Get.find();
+  RxString policiesString = ''.obs;
   final supabase = Supabase.instance.client;
+  RxBool isButtonVisible = false.obs;
   RxList<CoachModel> coachList = RxList<CoachModel>([]);
   RxList<ProductModel> productList = RxList<ProductModel>([]);
   RxList<BookModel> bookList = RxList<BookModel>([]);
@@ -74,12 +79,16 @@ class HomeController extends GetxController {
   }
 
   @override
-  void onInit() {
-    getFeaturedCoaches();
-    //TODO: products
-    // getProducts();
-    getBooks();
-    getApps();
+  void onInit() async {
+    await getFeaturedCoaches();
+    await getBooks();
+    await getApps();
     super.onInit();
+  }
+
+  @override
+  void onClose() {
+    // Dispose the controller when the controller is closed
+    super.onClose();
   }
 }

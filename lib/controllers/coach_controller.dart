@@ -5,6 +5,7 @@ import 'package:ifit/models/pricing_model.dart';
 import 'package:ifit/models/transformation_model.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
+import '../constants.dart';
 import '../models/coach_model.dart';
 import '../models/trainee_model.dart';
 
@@ -24,15 +25,14 @@ class CoachController extends GetxController {
   RxList<PricingModel> pricingList = RxList<PricingModel>([]);
   final newClientFormKey = GlobalKey<FormState>();
   final changePasswordFormKey = GlobalKey<FormState>();
-  // plan
   final addPlanFormKey = GlobalKey<FormState>();
-  final addTransformationFormKey = GlobalKey<FormState>();
   TextEditingController planName = TextEditingController();
   TextEditingController planTitle = TextEditingController();
   TextEditingController planText = TextEditingController();
   TextEditingController planPrice = TextEditingController();
   TextEditingController planImage = TextEditingController();
   // trans
+  final addTransformationFormKey = GlobalKey<FormState>();
   TextEditingController transName = TextEditingController();
   TextEditingController transBefore = TextEditingController();
   TextEditingController transAfter = TextEditingController();
@@ -110,7 +110,7 @@ class CoachController extends GetxController {
       } else {
         isLoading(false);
         Get.defaultDialog(
-            backgroundColor: Colors.red,
+            backgroundColor: accentColor,
             title: 'incorrect password',
             content: Text(
               'Check the password you entered and try again',

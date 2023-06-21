@@ -16,14 +16,14 @@ class AppWidget extends StatelessWidget {
     final screenWidth = MediaQuery.of(context).size.width;
     return Obx(
       () => apps.isEmpty
-          ? const SpinKitPumpingHeart(
-              color: Colors.red,
+          ? SpinKitPumpingHeart(
+              color: accentColor,
             )
           : CarouselSlider.builder(
               options: CarouselOptions(
                 height: 250,
                 autoPlayInterval: const Duration(seconds: 1),
-                viewportFraction: screenWidth < pageWidth ? 1 / 2 : 1 / 4,
+                viewportFraction: screenWidth < pageWidth ? 1 / 3 : 1 / 5,
                 reverse: true,
                 autoPlay: true,
               ),
@@ -44,14 +44,7 @@ class AppWidget extends StatelessWidget {
             height: 150,
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(20),
-              boxShadow: [
-                BoxShadow(
-                  color: Colors.red.withOpacity(0.3),
-                  spreadRadius: 5,
-                  blurRadius: 5,
-                  offset: const Offset(0, 2),
-                ),
-              ],
+              border: Border.all(color: accentColor),
               image: DecorationImage(
                 image: NetworkImage(apps[index].appImage),
                 fit: BoxFit.fill,
@@ -63,7 +56,7 @@ class AppWidget extends StatelessWidget {
           ),
           Text(
             apps[index].appName,
-            style: GoogleFonts.aclonica(fontSize: 16, color: Colors.white),
+            style: GoogleFonts.aclonica(fontSize: 16, color: lightColor),
             overflow: TextOverflow.ellipsis,
             maxLines: 1,
           ),
@@ -95,12 +88,12 @@ class AppWidget extends StatelessWidget {
                     width: 30,
                   ),
                 ),
-                const SizedBox(
+                SizedBox(
                   height: 30,
                   child: VerticalDivider(
                     thickness: 2,
                     width: 10,
-                    color: Colors.red,
+                    color: accentColor,
                   ),
                 ),
                 InkWell(

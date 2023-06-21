@@ -9,7 +9,6 @@ import 'controllers/workout_controller.dart';
 class HomeBinding implements Bindings {
   @override
   void dependencies() {
-    // Get.put<HomeController>(HomeController(), permanent: true);
     Get.lazyPut(() => HomeController());
   }
 }
@@ -17,7 +16,7 @@ class HomeBinding implements Bindings {
 class CoachBinding implements Bindings {
   @override
   void dependencies() {
-    Get.put<CoachController>(CoachController(), permanent: true);
+    Get.put<CoachController>(CoachController());
   }
 }
 

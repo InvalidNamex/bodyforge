@@ -4,13 +4,15 @@ import 'package:neon/neon.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 import 'package:get/get.dart';
 
+import '../constants.dart';
+
 class NotFound extends StatelessWidget {
   const NotFound({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.black,
+      backgroundColor: darkColor,
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -18,7 +20,7 @@ class NotFound extends StatelessWidget {
           children: [
             Text(
               'Page not found',
-              style: GoogleFonts.aclonica(color: Colors.red, fontSize: 32),
+              style: GoogleFonts.aclonica(color: accentColor, fontSize: 32),
             ),
             GestureDetector(
               onTap: () async {
@@ -33,7 +35,9 @@ class NotFound extends StatelessWidget {
                 }
               },
               child: Neon(
-                  text: 'Contact Us', color: Colors.red, font: NeonFont.Membra),
+                  text: 'Contact Us',
+                  color: Colors.yellow,
+                  font: NeonFont.Membra),
             ),
           ],
         ),

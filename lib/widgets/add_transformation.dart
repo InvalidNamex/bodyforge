@@ -14,37 +14,31 @@ class TransformationManagement extends GetView<CoachController> {
   @override
   Widget build(BuildContext context) {
     controller.populateCoach();
-    return WillPopScope(
-      onWillPop: () async {
-        Get.toNamed('/coach-cpanel');
-        return true;
-      },
-      child: Scaffold(
-        backgroundColor: Colors.black,
-        body: Obx(
-          () => controller.isLoading.value
-              ? const Center(
-                  child: SpinKitPumpingHeart(
-                    color: Colors.red,
-                  ),
-                )
-              : LayoutBuilder(
-                  builder: (BuildContext context, BoxConstraints constraints) {
-                    if (constraints.maxWidth > pageWidth) {
-                      return Center(
-                        child: Container(
-                          alignment: Alignment.topCenter,
-                          width: pageWidth,
-                          margin: const EdgeInsets.symmetric(horizontal: 16),
-                          child: buildContent(context, controller),
-                        ),
-                      );
-                    } else {
-                      return buildContent(context, controller);
-                    }
-                  },
+    return Scaffold(
+      backgroundColor: darkColor,
+      body: Obx(
+        () => controller.isLoading.value
+            ? Center(
+                child: SpinKitPumpingHeart(
+                  color: accentColor,
                 ),
-        ),
+              )
+            : LayoutBuilder(
+                builder: (BuildContext context, BoxConstraints constraints) {
+                  if (constraints.maxWidth > pageWidth) {
+                    return Center(
+                      child: Container(
+                        alignment: Alignment.topCenter,
+                        width: pageWidth,
+                        margin: const EdgeInsets.symmetric(horizontal: 16),
+                        child: buildContent(context, controller),
+                      ),
+                    );
+                  } else {
+                    return buildContent(context, controller);
+                  }
+                },
+              ),
       ),
     );
   }
@@ -60,9 +54,9 @@ class TransformationManagement extends GetView<CoachController> {
       ),
       child: Column(children: [
         AppBar(
-          backgroundColor: Colors.black.withOpacity(0.8),
+          backgroundColor: darkColor.withOpacity(0.8),
           title: Text('New Transformation',
-              style: GoogleFonts.aclonica(color: Colors.white)),
+              style: GoogleFonts.aclonica(color: lightColor)),
           centerTitle: true,
         ),
         Form(
@@ -77,23 +71,23 @@ class TransformationManagement extends GetView<CoachController> {
                     padding: const EdgeInsets.all(10),
                     decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(20),
-                        border: Border.all(color: Colors.red),
-                        color: Colors.black.withOpacity(0.9)),
+                        border: Border.all(color: accentColor),
+                        color: darkColor.withOpacity(0.9)),
                     child: TextFormField(
-                      style: const TextStyle(color: Colors.white),
+                      style: TextStyle(color: lightColor),
                       controller: coachController.transName,
-                      decoration: const InputDecoration(
+                      decoration: InputDecoration(
                         border: OutlineInputBorder(
-                          borderSide: BorderSide(color: Colors.red),
+                          borderSide: BorderSide(color: accentColor),
                         ),
                         labelText: 'Client Name',
-                        labelStyle: TextStyle(color: Colors.white),
+                        labelStyle: TextStyle(color: lightColor),
                         prefixIcon: Icon(
                           Icons.person,
-                          color: Colors.red,
+                          color: accentColor,
                         ),
                         hintText: 'Ahmed',
-                        hintStyle: TextStyle(color: Colors.white),
+                        hintStyle: TextStyle(color: lightColor),
                       ),
                       validator: (value) {
                         if (value == null || value.isEmpty) {
@@ -108,16 +102,16 @@ class TransformationManagement extends GetView<CoachController> {
                   padding: const EdgeInsets.all(10),
                   decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(20),
-                      border: Border.all(color: Colors.red),
-                      color: Colors.black.withOpacity(0.9)),
+                      border: Border.all(color: accentColor),
+                      color: darkColor.withOpacity(0.9)),
                   child: ListTile(
-                    leading: const Icon(
+                    leading: Icon(
                       Icons.image,
-                      color: Colors.red,
+                      color: accentColor,
                     ),
-                    title: const Text(
+                    title: Text(
                       'Before Picture',
-                      style: TextStyle(color: Colors.white),
+                      style: TextStyle(color: lightColor),
                     ),
                     trailing: transImagePicker(
                         isBefore: true,
@@ -132,16 +126,16 @@ class TransformationManagement extends GetView<CoachController> {
                   padding: const EdgeInsets.all(10),
                   decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(20),
-                      border: Border.all(color: Colors.red),
-                      color: Colors.black.withOpacity(0.9)),
+                      border: Border.all(color: accentColor),
+                      color: darkColor.withOpacity(0.9)),
                   child: ListTile(
-                    leading: const Icon(
+                    leading: Icon(
                       Icons.image,
-                      color: Colors.red,
+                      color: accentColor,
                     ),
-                    title: const Text(
+                    title: Text(
                       'After Picture',
-                      style: TextStyle(color: Colors.white),
+                      style: TextStyle(color: lightColor),
                     ),
                     trailing: transImagePicker(
                         isBefore: false,
@@ -156,14 +150,8 @@ class TransformationManagement extends GetView<CoachController> {
                   child: ElevatedButton(
                     style: ButtonStyle(
                         backgroundColor:
-                            MaterialStateProperty.all<Color>(Colors.red)),
+                            MaterialStateProperty.all<Color>(accentColor)),
                     onPressed: () async {
-                      print('''
-                              coach ID: ${controller.coach!.coachID},
-                              before: ${coachController.transBefore.text},
-                              after: ${coachController.transAfter.text},
-                              name: ${coachController.transName.text},
-                              ''');
                       try {
                         if (controller.addTransformationFormKey.currentState!
                             .validate()) {
@@ -173,10 +161,9 @@ class TransformationManagement extends GetView<CoachController> {
                                 coachController.transAfter.text.isNotEmpty) {
                               Get.defaultDialog(
                                   title: '',
-                                  content: const SpinKitPumpingHeart(
-                                      color: Colors.red),
-                                  backgroundColor:
-                                      Colors.black.withOpacity(0.7));
+                                  content:
+                                      SpinKitPumpingHeart(color: accentColor),
+                                  backgroundColor: darkColor.withOpacity(0.7));
                               final supabase = Supabase.instance.client;
                               await supabase
                                   .from('transformation')
@@ -184,9 +171,14 @@ class TransformationManagement extends GetView<CoachController> {
                                     coachID: controller.coach!.coachID,
                                     before: coachController.transBefore.text,
                                     after: coachController.transAfter.text,
-                                    name: coachController.transAfter.text,
+                                    name: coachController.transName.text,
                                   ))
                                   .whenComplete(() => Get.back());
+                              coachController.transName.clear();
+                              coachController.transBefore.clear();
+                              coachController.transAfter.clear();
+                              await coachController
+                                  .deleteTrans(coachController.coach!.coachID);
                             }
                           }
                         } else {}
@@ -195,7 +187,11 @@ class TransformationManagement extends GetView<CoachController> {
                         Get.snackbar('error', e.toString());
                       }
                     },
-                    child: const Text('Save Transformation'),
+                    child: Text(
+                      'Save Transformation',
+                      style: TextStyle(
+                          color: darkColor, fontWeight: FontWeight.bold),
+                    ),
                   ),
                 )
               ],

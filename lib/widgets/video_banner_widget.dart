@@ -1,8 +1,11 @@
 import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_spinkit/flutter_spinkit.dart';
-
+import 'package:google_fonts/google_fonts.dart';
+import 'package:get/get.dart';
 import 'package:video_player/video_player.dart';
+
+import '../constants.dart';
+import '../helpers/loader_helper.dart';
 
 class VideoBannerWidget extends StatefulWidget {
   const VideoBannerWidget({Key? key}) : super(key: key);
@@ -39,33 +42,118 @@ class _VideoBannerWidgetState extends State<VideoBannerWidget> {
                   ),
                   Positioned.fill(
                     child: Container(
-                        color: Colors.black.withOpacity(0.4),
-                        alignment: Alignment.center,
-                        child: AnimatedTextKit(
-                          animatedTexts: [
-                            TyperAnimatedText('This is the first line of text',
-                                textStyle: const TextStyle(
-                                    fontSize: 32, color: Colors.red)),
-                            RotateAnimatedText(
-                                'This is the second line of te≈†',
-                                textStyle: const TextStyle(
-                                    fontSize: 32, color: Colors.red)),
-                            FadeAnimatedText(
-                                'This is the third animated line of text',
-                                textStyle: const TextStyle(
-                                    fontSize: 32, color: Colors.red)),
-                            TypewriterAnimatedText(
-                                'This my friend is the fourth line of text',
-                                textStyle: const TextStyle(
-                                    fontSize: 32, color: Colors.red),
-                                cursor: '|'),
+                        padding: const EdgeInsets.all(20),
+                        color: darkColor.withOpacity(0.5),
+                        alignment: Alignment.bottomCenter,
+                        child: Column(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            AnimatedTextKit(
+                              onNextBeforePause: (index, isIt) =>
+                                  homeController.isButtonVisible(false),
+                              onFinished: () =>
+                                  homeController.isButtonVisible(true),
+                              totalRepeatCount: 1,
+                              animatedTexts: [
+                                FadeAnimatedText(
+                                  'Are you a coach looking to take the next step in your career?',
+                                  textStyle: GoogleFonts.aclonica(
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 24,
+                                      color: lightColor),
+                                ),
+                                RotateAnimatedText(
+                                  'Are you a trainee trying to get shredded?\n Do you want to put on some muscles?',
+                                  textStyle: GoogleFonts.aclonica(
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 24,
+                                      color: lightColor),
+                                ),
+                                FadeAnimatedText(
+                                  'Looking for the best coaches to help you achieve your goals effectively?',
+                                  textStyle: GoogleFonts.aclonica(
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 24,
+                                      color: lightColor),
+                                ),
+                                TypewriterAnimatedText(
+                                  'JOIN US NOW',
+                                  textStyle: GoogleFonts.aclonica(
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 28,
+                                      color: accentColor),
+                                  cursor: '|',
+                                  speed: const Duration(milliseconds: 60),
+                                ),
+                              ],
+                            ),
+                            const SizedBox(
+                              height: 20,
+                            ),
+                            Obx(
+                              () => homeController.isButtonVisible.value
+                                  ? Row(
+                                      mainAxisSize: MainAxisSize.min,
+                                      children: [
+                                        ElevatedButton(
+                                          onPressed: () {},
+                                          style: ButtonStyle(
+                                              backgroundColor:
+                                                  MaterialStateProperty.all(
+                                                      accentColor)),
+                                          child: Text('Coach with us',
+                                              style: GoogleFonts.aclonica(
+                                                  color: darkColor)),
+                                        ),
+                                        SizedBox(
+                                          width: 10,
+                                          height: 30,
+                                          child: VerticalDivider(
+                                            thickness: 2,
+                                            color: darkColor,
+                                          ),
+                                        ),
+                                        ElevatedButton(
+                                          onPressed: () {},
+                                          style: ButtonStyle(
+                                              backgroundColor:
+                                                  MaterialStateProperty.all(
+                                                      accentColor)),
+                                          child: Text('Train with us',
+                                              style: GoogleFonts.aclonica(
+                                                  color: darkColor)),
+                                        )
+                                      ],
+                                    )
+                                  : Container(),
+                            ),
                           ],
                         )),
-                  )
+                  ),
                 ],
               )
-            : const SpinKitPumpingHeart(
-                color: Colors.red,
-              ));
+            : Container(
+                height: pageWidth * 16 / 9,
+                width: pageWidth,
+                alignment: Alignment.center,
+                child: loader()));
   }
 }
+
+//   TyperAnimatedText('This is the first line of text',
+//       textStyle: GoogleFonts.aclonica(
+//           fontWeight: FontWeight.bold,
+//           fontSize: 36,
+//           color: lightColor)),
+//   RotateAnimatedText(
+//       'This is the second line of te≈†',
+//       textStyle: GoogleFonts.aclonica(
+//           fontWeight: FontWeight.bold,
+//           fontSize: 36,
+//           color: lightColor)),
+//   FadeAnimatedText(
+//       'This is the third animated line of text',
+//       textStyle: GoogleFonts.aclonica(
+//           fontWeight: FontWeight.bold,
+//           fontSize: 36,
+//           color: lightColor)),

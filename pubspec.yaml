@@ -1,5 +1,5 @@
 name: ifit
-description: A new Flutter project.
+description: Forge your body to your liking.
 # The following line prevents the package from being accidentally published to
 # pub.dev using `flutter pub publish`. This is preferred for private packages.
 publish_to: 'none' # Remove this line if you wish to publish to pub.dev
@@ -30,11 +30,6 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-#  flutter_web_plugins:
-#    sdk: flutter
-
-  # The following adds the Cupertino Icons font to your application.
-  # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.2
   flutter_dotenv: ^5.0.2
   supabase_flutter: ^1.8.0
@@ -42,6 +37,7 @@ dependencies:
   video_player: ^2.4.7
   animated_text_kit: ^4.2.2
   neon: ^0.1.0
+  http:
   csslib: 0.17.0
   intl: ^0.18.1
   flutter_spinkit: ^5.2.0

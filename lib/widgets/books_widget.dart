@@ -15,15 +15,16 @@ class BookWidget extends StatelessWidget {
     final screenWidth = MediaQuery.of(context).size.width;
 
     return Column(
+      mainAxisAlignment: MainAxisAlignment.end,
       children: [
         Obx(
           () => books.isEmpty
-              ? const SpinKitPumpingHeart(
-                  color: Colors.red,
+              ? SpinKitPumpingHeart(
+                  color: accentColor,
                 )
               : CarouselSlider.builder(
                   options: CarouselOptions(
-                    viewportFraction: screenWidth < pageWidth ? 1 / 2 : 1 / 3,
+                    viewportFraction: screenWidth < pageWidth ? 1 / 2 : 1 / 4,
                     height: 250,
                     autoPlay: true,
                   ),
@@ -60,14 +61,7 @@ class BookWidget extends StatelessWidget {
               width: 150,
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(20),
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.red.withOpacity(0.3),
-                    spreadRadius: 5,
-                    blurRadius: 5,
-                    offset: const Offset(0, 2),
-                  ),
-                ],
+                border: Border.all(color: accentColor),
                 image: DecorationImage(
                   image: NetworkImage(books[index].bookImage),
                   fit: BoxFit.fill,
@@ -78,7 +72,7 @@ class BookWidget extends StatelessWidget {
             const SizedBox(height: 10),
             Text(
               books[index].bookName,
-              style: GoogleFonts.aclonica(fontSize: 16, color: Colors.red),
+              style: GoogleFonts.aclonica(fontSize: 16, color: accentColor),
               overflow: TextOverflow.ellipsis,
               maxLines: 2,
             ),

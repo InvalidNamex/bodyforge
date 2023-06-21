@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:get/get.dart';
-import '../models/coach_model.dart';
+import '../constants.dart';
 import '../models/product_model.dart';
 
 class FeaturedProductWidget extends StatelessWidget {
@@ -15,8 +15,8 @@ class FeaturedProductWidget extends StatelessWidget {
       children: [
         Obx(
           () => products.isEmpty
-              ? const SpinKitPumpingHeart(
-                  color: Colors.red,
+              ? SpinKitPumpingHeart(
+                  color: accentColor,
                 )
               : CarouselSlider.builder(
                   options: CarouselOptions(
@@ -50,7 +50,7 @@ class FeaturedProductWidget extends StatelessWidget {
                 borderRadius: BorderRadius.circular(20),
                 boxShadow: [
                   BoxShadow(
-                    color: Colors.red.withOpacity(0.3),
+                    color: accentColor.withOpacity(0.3),
                     spreadRadius: 5,
                     blurRadius: 5,
                     offset: const Offset(0, 2),
@@ -66,14 +66,16 @@ class FeaturedProductWidget extends StatelessWidget {
             const SizedBox(height: 10),
             Text(
               products[index].productName,
-              style: GoogleFonts.aclonica(fontSize: 16, color: Colors.white),
+              style: GoogleFonts.aclonica(fontSize: 16, color: lightColor),
               overflow: TextOverflow.ellipsis,
               maxLines: 2,
             ),
             Text(
               '${products[index].productPrice.toString()} L.E',
               style: GoogleFonts.aclonica(
-                  fontSize: 12, fontWeight: FontWeight.bold, color: Colors.red),
+                  fontSize: 12,
+                  fontWeight: FontWeight.bold,
+                  color: accentColor),
             ),
           ],
         ),

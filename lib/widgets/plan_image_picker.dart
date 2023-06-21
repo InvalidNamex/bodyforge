@@ -1,13 +1,12 @@
-import 'dart:io';
-
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:ifit/constants.dart';
 import 'package:ifit/models/pricing_model.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:get/get.dart';
+
+import '../helpers/loader_helper.dart';
 
 Widget planImagePicker({
   required String buttonText,
@@ -19,7 +18,7 @@ Widget planImagePicker({
 
   return ElevatedButton(
     style: ButtonStyle(
-        backgroundColor: MaterialStateProperty.all<Color>(Colors.red)),
+        backgroundColor: MaterialStateProperty.all<Color>(accentColor)),
     onPressed: () async {
       try {
         final picker = ImagePicker();
@@ -33,11 +32,9 @@ Widget planImagePicker({
             _image = await pickedFile.readAsBytes();
           }
           Get.defaultDialog(
-              backgroundColor: Colors.black.withOpacity(0.7),
+              backgroundColor: darkColor.withOpacity(0.7),
               title: '',
-              content: const SpinKitPumpingHeart(
-                color: Colors.red,
-              ));
+              content: loader());
           final _path = await supabase.storage.from(imageBucket).uploadBinary(
                 '$coachID/${DateTime.now().millisecondsSinceEpoch}.png',
                 _image,
@@ -57,12 +54,11 @@ Widget planImagePicker({
         }
       } catch (e) {
         Get.snackbar('Error', e.toString());
-        print(e.toString());
       }
     },
     child: Text(
       buttonText,
-      style: const TextStyle(color: Colors.white),
+      style: TextStyle(color: darkColor),
     ),
   );
 }

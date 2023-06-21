@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
+import '/widgets/scaffold_widget.dart';
 
 import '../constants.dart';
 import '../controllers/home_controller.dart';
@@ -10,10 +11,9 @@ class PricingScreen extends GetView<HomeController> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Colors.black,
+    return MyScaffold(
       appBar: AppBar(
-        backgroundColor: Colors.black.withOpacity(0.7),
+        backgroundColor: darkColor.withOpacity(0.7),
         centerTitle: true,
         title: Row(
           mainAxisSize: MainAxisSize.min,
@@ -27,28 +27,14 @@ class PricingScreen extends GetView<HomeController> {
             const SizedBox(
               width: 10,
             ),
-            const Text(
+            Text(
               'Pricing',
-              style: TextStyle(color: Colors.white),
+              style: TextStyle(color: lightColor),
             )
           ],
         ),
       ),
-      body: LayoutBuilder(
-        builder: (BuildContext context, BoxConstraints constraints) {
-          if (constraints.maxWidth > pageWidth) {
-            return Center(
-              child: Container(
-                width: pageWidth,
-                margin: const EdgeInsets.symmetric(horizontal: 16),
-                child: buildContent(context, controller),
-              ),
-            );
-          } else {
-            return buildContent(context, controller);
-          }
-        },
-      ),
+      buildContent: buildContent(context, controller),
     );
   }
 }
@@ -57,30 +43,20 @@ Widget buildContent(context, HomeController controller) {
   final screenWidth = MediaQuery.of(context).size.width;
   final crossAxisCount = screenWidth < pageWidth ? 1 : 2;
 
-  return Container(
-      padding: const EdgeInsets.all(5),
-      alignment: Alignment.center,
-      constraints: BoxConstraints(maxWidth: pageWidth),
-      decoration: const BoxDecoration(
-        image: DecorationImage(
-          image: AssetImage('images/home-bg.png'),
-          fit: BoxFit.fill,
-        ),
-      ),
-      child: SafeArea(
-          child: GridView.builder(
-        padding: const EdgeInsets.all(10),
-        shrinkWrap: true,
-        itemCount: controller.webPriceList.length,
-        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-          crossAxisCount: crossAxisCount,
-          mainAxisSpacing: 10,
-          crossAxisSpacing: 10,
-        ),
-        itemBuilder: (context, index) {
-          return container(context, controller, index);
-        },
-      )));
+  return SafeArea(
+      child: GridView.builder(
+    padding: const EdgeInsets.all(10),
+    shrinkWrap: true,
+    itemCount: controller.webPriceList.length,
+    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+      crossAxisCount: crossAxisCount,
+      mainAxisSpacing: 10,
+      crossAxisSpacing: 10,
+    ),
+    itemBuilder: (context, index) {
+      return container(context, controller, index);
+    },
+  ));
 }
 
 Widget container(context, HomeController controller, index) {
@@ -93,39 +69,42 @@ Widget container(context, HomeController controller, index) {
             colorFilter: ColorFilter.mode(Color(0x80000000), BlendMode.darken),
             image: AssetImage('images/plan-bg.png'),
             fit: BoxFit.fill)),
-    child: ListView(
-      shrinkWrap: true,
+    child: Column(
       children: [
         Text(
-          controller.webPriceList[index].planName,
-          style: GoogleFonts.adamina(color: Colors.red, fontSize: 24),
+          controller.webPriceList[index].planTitle,
+          style: GoogleFonts.adamina(color: accentColor, fontSize: 24),
           textAlign: TextAlign.center,
         ),
-        Container(
-            padding: const EdgeInsets.all(5),
-            margin: const EdgeInsets.all(5),
-            color: Colors.red,
-            child: Text(
-              controller.webPriceList[index].planTitle,
-              style: GoogleFonts.bebasNeue(color: Colors.white, fontSize: 28),
-              textAlign: TextAlign.center,
-            )),
         const SizedBox(
-          height: 7,
+          height: 5,
+        ),
+        Expanded(
+          child: SingleChildScrollView(
+            child: Text(
+              controller.webPriceList[index].planText,
+              style: GoogleFonts.cairoPlay(
+                  color: lightColor, fontSize: 24, fontWeight: FontWeight.bold),
+              textAlign: TextAlign.start,
+              maxLines: 10,
+            ),
+          ),
         ),
         Text(
-          controller.webPriceList[index].planText,
-          style: GoogleFonts.cairoPlay(
-              color: Colors.white, fontSize: 24, fontWeight: FontWeight.bold),
-          textAlign: TextAlign.start,
-          maxLines: 10,
-        ),
-        Text(
-          controller.webPriceList[index].planPrice.toString(),
+          '${controller.webPriceList[index].planPrice.toString()} L.E',
           style: GoogleFonts.cairo(
-              color: Colors.red, fontSize: 24, fontWeight: FontWeight.bold),
+              color: lightColor, fontSize: 24, fontWeight: FontWeight.bold),
           textAlign: TextAlign.center,
         ),
+        ElevatedButton(
+            onPressed: () {},
+            style: ButtonStyle(
+                backgroundColor: MaterialStateProperty.all(accentColor)),
+            child: Text(
+              'Subscribe',
+              style: GoogleFonts.cairoPlay(
+                  color: darkColor, fontWeight: FontWeight.bold, fontSize: 18),
+            )),
       ],
     ),
   );

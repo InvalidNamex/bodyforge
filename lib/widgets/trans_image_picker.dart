@@ -4,6 +4,8 @@ import 'package:image_picker/image_picker.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:get/get.dart';
 
+import '../constants.dart';
+
 Widget transImagePicker({
   required int coachID,
   bool isBefore = false,
@@ -15,7 +17,7 @@ Widget transImagePicker({
   RxBool isLoading = false.obs;
   return ElevatedButton(
     style: ButtonStyle(
-        backgroundColor: MaterialStateProperty.all<Color>(Colors.red)),
+        backgroundColor: MaterialStateProperty.all<Color>(accentColor)),
     onPressed: () async {
       try {
         final picker = ImagePicker();
@@ -50,23 +52,19 @@ Widget transImagePicker({
         }
       } catch (e) {
         Get.snackbar('Error', e.toString());
-        print(e.toString());
       }
     },
     child: Obx(
       () => !isLoading.value
-          ? const Text(
+          ? Text(
               'Choose Image',
-              style: TextStyle(color: Colors.white),
+              style: TextStyle(color: darkColor),
             )
-          : const Padding(
-              padding: EdgeInsets.all(5.0),
-              child: FittedBox(
-                fit: BoxFit.contain,
-                child: CircularProgressIndicator(
-                  strokeWidth: 5,
-                  color: Colors.white,
-                ),
+          : Padding(
+              padding: const EdgeInsets.all(5.0),
+              child: CircularProgressIndicator(
+                strokeWidth: 2,
+                color: darkColor,
               ),
             ),
     ),

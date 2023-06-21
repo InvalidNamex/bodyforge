@@ -18,12 +18,12 @@ class PricePlan extends GetView<CoachController> {
         return true;
       },
       child: Scaffold(
-        backgroundColor: Colors.black,
+        backgroundColor: darkColor,
         body: Obx(
           () => controller.isLoading.value
-              ? const Center(
+              ? Center(
                   child: SpinKitPumpingHeart(
-                    color: Colors.red,
+                    color: accentColor,
                   ),
                 )
               : LayoutBuilder(
@@ -58,9 +58,9 @@ class PricePlan extends GetView<CoachController> {
       ),
       child: Column(children: [
         AppBar(
-          backgroundColor: Colors.black.withOpacity(0.8),
-          title: Text('NEW PLAN',
-              style: GoogleFonts.aclonica(color: Colors.white)),
+          backgroundColor: darkColor.withOpacity(0.8),
+          title:
+              Text('NEW PLAN', style: GoogleFonts.aclonica(color: lightColor)),
           centerTitle: true,
         ),
         Form(
@@ -69,29 +69,28 @@ class PricePlan extends GetView<CoachController> {
             child: ListView(
               shrinkWrap: true,
               children: [
-                // plan name
                 Container(
                     margin: const EdgeInsets.all(10),
                     padding: const EdgeInsets.all(10),
                     decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(20),
-                        border: Border.all(color: Colors.red),
-                        color: Colors.black.withOpacity(0.9)),
+                        border: Border.all(color: accentColor),
+                        color: darkColor.withOpacity(0.9)),
                     child: TextFormField(
-                      style: const TextStyle(color: Colors.white),
+                      style: TextStyle(color: lightColor),
                       controller: controller.planName,
-                      decoration: const InputDecoration(
+                      decoration: InputDecoration(
                         border: OutlineInputBorder(
-                          borderSide: BorderSide(color: Colors.red),
+                          borderSide: BorderSide(color: accentColor),
                         ),
                         labelText: 'Plan name',
-                        labelStyle: TextStyle(color: Colors.white),
+                        labelStyle: TextStyle(color: lightColor),
                         prefixIcon: Icon(
                           Icons.abc,
-                          color: Colors.red,
+                          color: accentColor,
                         ),
                         hintText: 'Silver',
-                        hintStyle: TextStyle(color: Colors.white),
+                        hintStyle: TextStyle(color: lightColor),
                       ),
                       validator: (value) {
                         if (value == null || value.isEmpty) {
@@ -100,29 +99,28 @@ class PricePlan extends GetView<CoachController> {
                         return null;
                       },
                     )),
-                // plan title
                 Container(
                     margin: const EdgeInsets.all(10),
                     padding: const EdgeInsets.all(10),
                     decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(20),
-                        border: Border.all(color: Colors.red),
-                        color: Colors.black.withOpacity(0.9)),
+                        border: Border.all(color: accentColor),
+                        color: darkColor.withOpacity(0.9)),
                     child: TextFormField(
-                      style: const TextStyle(color: Colors.white),
+                      style: TextStyle(color: lightColor),
                       controller: controller.planTitle,
-                      decoration: const InputDecoration(
+                      decoration: InputDecoration(
                         border: OutlineInputBorder(
-                          borderSide: BorderSide(color: Colors.red),
+                          borderSide: BorderSide(color: accentColor),
                         ),
                         labelText: 'Second line',
-                        labelStyle: TextStyle(color: Colors.white),
+                        labelStyle: TextStyle(color: lightColor),
                         prefixIcon: Icon(
                           Icons.abc,
-                          color: Colors.red,
+                          color: accentColor,
                         ),
                         hintText: 'Together better',
-                        hintStyle: TextStyle(color: Colors.white),
+                        hintStyle: TextStyle(color: lightColor),
                       ),
                       validator: (value) {
                         if (value == null || value.isEmpty) {
@@ -131,31 +129,30 @@ class PricePlan extends GetView<CoachController> {
                         return null;
                       },
                     )),
-                // plan text
                 Container(
                     margin: const EdgeInsets.all(10),
                     padding: const EdgeInsets.all(10),
                     decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(20),
-                        border: Border.all(color: Colors.red),
-                        color: Colors.black.withOpacity(0.9)),
+                        border: Border.all(color: accentColor),
+                        color: darkColor.withOpacity(0.9)),
                     child: TextFormField(
                       maxLines: 7,
-                      style: const TextStyle(color: Colors.white),
+                      style: TextStyle(color: lightColor),
                       controller: controller.planText,
-                      decoration: const InputDecoration(
+                      decoration: InputDecoration(
                           border: OutlineInputBorder(
-                            borderSide: BorderSide(color: Colors.red),
+                            borderSide: BorderSide(color: accentColor),
                           ),
                           labelText: 'Plan details',
-                          labelStyle: TextStyle(color: Colors.white),
+                          labelStyle: TextStyle(color: lightColor),
                           prefixIcon: Icon(
                             Icons.abc,
-                            color: Colors.red,
+                            color: accentColor,
                           ),
                           hintText:
                               'Custom diet and workout plan \n Weekly follow up',
-                          hintStyle: TextStyle(color: Colors.white)),
+                          hintStyle: TextStyle(color: lightColor)),
                       validator: (value) {
                         if (value == null || value.isEmpty) {
                           return 'Please enter plan details';
@@ -163,27 +160,26 @@ class PricePlan extends GetView<CoachController> {
                         return null;
                       },
                     )),
-                // plan price
                 Container(
                   margin: const EdgeInsets.all(10),
                   padding: const EdgeInsets.all(10),
                   decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(20),
-                      border: Border.all(color: Colors.red),
-                      color: Colors.black.withOpacity(0.9)),
+                      border: Border.all(color: accentColor),
+                      color: darkColor.withOpacity(0.9)),
                   child: TextFormField(
                     keyboardType: TextInputType.number,
-                    style: const TextStyle(color: Colors.white),
+                    style: TextStyle(color: lightColor),
                     controller: controller.planPrice,
-                    decoration: const InputDecoration(
+                    decoration: InputDecoration(
                       border: OutlineInputBorder(
-                        borderSide: BorderSide(color: Colors.red),
+                        borderSide: BorderSide(color: accentColor),
                       ),
                       labelText: 'plan price',
-                      labelStyle: TextStyle(color: Colors.white),
+                      labelStyle: TextStyle(color: lightColor),
                       prefixIcon: Icon(
                         Icons.abc,
-                        color: Colors.red,
+                        color: accentColor,
                       ),
                       hintText: 'Enter plan price',
                     ),
@@ -196,12 +192,12 @@ class PricePlan extends GetView<CoachController> {
                   ),
                 ),
                 Container(
-                  margin: EdgeInsets.all(20),
+                  margin: const EdgeInsets.all(20),
                   height: 50,
                   child: ElevatedButton(
                     style: ButtonStyle(
                         backgroundColor:
-                            MaterialStateProperty.all<Color>(Colors.red)),
+                            MaterialStateProperty.all<Color>(accentColor)),
                     onPressed: () async {
                       if (controller.addPlanFormKey.currentState!.validate()) {
                         final planName = controller.planName.text;
@@ -220,40 +216,42 @@ class PricePlan extends GetView<CoachController> {
                         controller.planPrice.clear();
                       }
                     },
-                    child: const Text('Save Plan'),
+                    child: Text(
+                      'Save Plan',
+                      style: TextStyle(color: darkColor),
+                    ),
                   ),
                 ),
-                const Stack(
+                Stack(
                   alignment: Alignment.center,
                   children: [
                     Divider(
                       height: 10,
-                      color: Colors.red,
+                      color: accentColor,
                       thickness: 2,
                     ),
                     Center(
                         child: Text(
                       'OR',
-                      style: TextStyle(color: Colors.white, fontSize: 28),
+                      style: TextStyle(color: lightColor, fontSize: 28),
                     )),
                   ],
                 ),
-                // plan image
                 Container(
                   margin: const EdgeInsets.all(10),
                   padding: const EdgeInsets.all(10),
                   decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(20),
-                      border: Border.all(color: Colors.red),
-                      color: Colors.black.withOpacity(0.9)),
+                      border: Border.all(color: accentColor),
+                      color: darkColor.withOpacity(0.9)),
                   child: ListTile(
-                    leading: const Icon(
+                    leading: Icon(
                       Icons.image,
-                      color: Colors.red,
+                      color: accentColor,
                     ),
-                    title: const Text(
+                    title: Text(
                       'Plan Picture',
-                      style: TextStyle(color: Colors.white),
+                      style: TextStyle(color: lightColor),
                     ),
                     trailing: planImagePicker(
                       buttonText: 'Choose Image',

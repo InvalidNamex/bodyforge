@@ -1,7 +1,7 @@
 import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
-// import 'package:flutter_web_plugins/flutter_web_plugins.dart';
+import 'package:ifit/screens/splash_screen.dart';
 import '/screens/pricing.dart';
 import '/widgets/add_transformation.dart';
 import '/screens/coach_screens/coach_cpanel_screen.dart';
@@ -12,6 +12,7 @@ import '/screens/trainee_screens/trainee_screen.dart';
 import '/screens/coach_screens/coach_home.dart';
 import '/screens/not_found.dart';
 import '/screens/trainee_screens/workout_screen.dart';
+import 'constants.dart';
 import 'screens/trainee_screens/diet_screen.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:get/get.dart';
@@ -25,8 +26,7 @@ void main() async {
   await Supabase.initialize(
       url: dotenv.env['SUPABASE_URL']!,
       anonKey: dotenv.env['SUPABASE_ANNON_KEY']!);
-  runApp(MyApp());
-  // PathUrlStrategy();
+  runApp(const MyApp());
 }
 
 class MyCustomScrollBehavior extends MaterialScrollBehavior {
@@ -40,7 +40,7 @@ class MyCustomScrollBehavior extends MaterialScrollBehavior {
 }
 
 class MyApp extends StatelessWidget {
-  MyApp({Key? key}) : super(key: key);
+  const MyApp({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     return GetMaterialApp(
@@ -51,18 +51,16 @@ class MyApp extends StatelessWidget {
       logWriterCallback: (text, {isError = false}) {
         if (isError) {
           Get.defaultDialog(
-              backgroundColor: Colors.black,
-              titleStyle: const TextStyle(color: Colors.red),
+              backgroundColor: darkColor,
+              titleStyle: TextStyle(color: accentColor),
               title: 'Error',
               content: Text(
                 text,
                 maxLines: 10,
                 overflow: TextOverflow.ellipsis,
-                style: const TextStyle(color: Colors.white),
+                style: TextStyle(color: lightColor),
               ));
-        } else {
-          print(text);
-        }
+        } else {}
       },
       fallbackLocale: const Locale('en', 'US'),
       scrollBehavior: MyCustomScrollBehavior(),
@@ -81,6 +79,12 @@ class MyApp extends StatelessWidget {
         ),
         GetPage(
             name: '/',
+            page: () => const SplashScreen(),
+            binding: HomeBinding(),
+            transition: Transition.zoom,
+            transitionDuration: const Duration(milliseconds: 200)),
+        GetPage(
+            name: '/index',
             page: () => const HomeScreen(),
             binding: HomeBinding(),
             transition: Transition.leftToRight,

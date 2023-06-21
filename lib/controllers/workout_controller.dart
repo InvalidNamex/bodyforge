@@ -1,5 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
+import 'package:ifit/models/custom_workout_model.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 import '../constants.dart';
@@ -18,6 +20,7 @@ class WorkoutController extends GetxController {
   final TraineeModel? trainee = traineeController.trainee;
   RxList<WorkoutModel> workoutsList = RxList<WorkoutModel>([]);
   RxList<ExerciseModel> exercisesList = RxList<ExerciseModel>([]);
+  RxList<CustomWorkoutModel> custExercisesList = RxList<CustomWorkoutModel>([]);
   Future addWorkout({
     required int day,
     required String title,
@@ -37,6 +40,22 @@ class WorkoutController extends GetxController {
         .toJson();
     await supabase.from('workout').insert(workout);
     await populateWorkoutsList();
+  }
+
+  Future createWorkout(
+      {required int coach,
+      required String url,
+      required String exercise}) async {
+    try {
+      final _x =
+          await supabase.from('exercises').select().eq('exercise', exercise);
+      int _y = ExerciseModel.fromJson(_x[0]).exerciseID ?? 3;
+      final workout =
+          CustomWorkoutModel(coach: coach, url: url, exerciseID: _y).toJson();
+      await supabase.from('custom_exercise').insert(workout);
+    } catch (e) {
+      Get.snackbar('error', e.toString());
+    }
   }
 
   Future populateWorkoutsList() async {
@@ -91,6 +110,17 @@ class WorkoutController extends GetxController {
         await supabase.from('exercises').select().eq('category', muscleGroup);
     for (var exercise in _x) {
       exercisesList.add(ExerciseModel.fromJson(exercise));
+    }
+    await getCustomExercises();
+  }
+
+  Future<void> getCustomExercises() async {
+    final Future<SharedPreferences> prefs = SharedPreferences.getInstance();
+    final SharedPreferences pref = await prefs;
+    final int? id = pref.getInt('id');
+    List _x = await supabase.from('custom_exercise').select().eq('coach', id!);
+    for (var exercise in _x) {
+      custExercisesList.add(CustomWorkoutModel.fromJson(exercise));
     }
   }
 }
