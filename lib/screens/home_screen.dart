@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:get/get.dart';
 import 'package:neon/neon.dart';
+import '../widgets/ad_banner_widget.dart';
 import '/widgets/scaffold_widget.dart';
 import '../helpers/loader_helper.dart';
 import '../widgets/pdf_viewer.dart';
@@ -48,7 +49,7 @@ Widget buildContent(context, HomeController controller) {
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
                                   Image.asset(
-                                    'images/icon.png',
+                                    'images/favicon.png',
                                     fit: BoxFit.fitHeight,
                                   ),
                                   const SizedBox(
@@ -100,6 +101,9 @@ Widget buildContent(context, HomeController controller) {
                 FeaturedCoachWidget(
                   coaches: controller.coachList,
                 ),
+                controller.adBannersList.isEmpty
+                    ? Container()
+                    : const SizedBox(height: 250, child: AdBannerWidget()),
                 Container(
                   height: MediaQuery.of(context).size.height,
                   alignment: Alignment.bottomCenter,

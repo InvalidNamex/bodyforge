@@ -96,7 +96,8 @@ class _VideoBannerWidgetState extends State<VideoBannerWidget> {
                                       mainAxisSize: MainAxisSize.min,
                                       children: [
                                         ElevatedButton(
-                                          onPressed: () {},
+                                          onPressed: () =>
+                                              Get.toNamed('/coach-signup'),
                                           style: ButtonStyle(
                                               backgroundColor:
                                                   MaterialStateProperty.all(
@@ -114,7 +115,9 @@ class _VideoBannerWidgetState extends State<VideoBannerWidget> {
                                           ),
                                         ),
                                         ElevatedButton(
-                                          onPressed: () {},
+                                          onPressed: () {
+                                            Get.toNamed('/client-signup');
+                                          },
                                           style: ButtonStyle(
                                               backgroundColor:
                                                   MaterialStateProperty.all(

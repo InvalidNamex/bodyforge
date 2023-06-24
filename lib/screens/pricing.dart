@@ -43,20 +43,23 @@ Widget buildContent(context, HomeController controller) {
   final screenWidth = MediaQuery.of(context).size.width;
   final crossAxisCount = screenWidth < pageWidth ? 1 : 2;
 
-  return SafeArea(
-      child: GridView.builder(
-    padding: const EdgeInsets.all(10),
-    shrinkWrap: true,
-    itemCount: controller.webPriceList.length,
-    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-      crossAxisCount: crossAxisCount,
-      mainAxisSpacing: 10,
-      crossAxisSpacing: 10,
-    ),
-    itemBuilder: (context, index) {
-      return container(context, controller, index);
-    },
-  ));
+  return RefreshIndicator(
+    onRefresh: () async => await homeController.getWebPrices(),
+    child: SafeArea(
+        child: GridView.builder(
+      padding: const EdgeInsets.all(10),
+      shrinkWrap: true,
+      itemCount: controller.webPriceList.length,
+      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+        crossAxisCount: crossAxisCount,
+        mainAxisSpacing: 10,
+        crossAxisSpacing: 10,
+      ),
+      itemBuilder: (context, index) {
+        return container(context, controller, index);
+      },
+    )),
+  );
 }
 
 Widget container(context, HomeController controller, index) {
@@ -90,14 +93,27 @@ Widget container(context, HomeController controller, index) {
             ),
           ),
         ),
-        Text(
-          '${controller.webPriceList[index].planPrice.toString()} L.E',
-          style: GoogleFonts.cairo(
-              color: lightColor, fontSize: 24, fontWeight: FontWeight.bold),
-          textAlign: TextAlign.center,
-        ),
+        homeController.isLocal.value
+            ? Text(
+                '${controller.webPriceList[index].planPrice.toString()} L.E',
+                style: GoogleFonts.cairo(
+                    color: lightColor,
+                    fontSize: 24,
+                    fontWeight: FontWeight.bold),
+                textAlign: TextAlign.center,
+              )
+            : Text(
+                '${controller.webPriceList[index].planPriceUSD.toString()} \$',
+                style: GoogleFonts.cairo(
+                    color: lightColor,
+                    fontSize: 24,
+                    fontWeight: FontWeight.bold),
+                textAlign: TextAlign.center,
+              ),
         ElevatedButton(
-            onPressed: () {},
+            onPressed: () {
+              //TODO: add subscription
+            },
             style: ButtonStyle(
                 backgroundColor: MaterialStateProperty.all(accentColor)),
             child: Text(

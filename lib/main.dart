@@ -1,7 +1,8 @@
 import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
-import 'package:ifit/screens/splash_screen.dart';
+import '/screens/coach_screens/coach_signup.dart';
+import '/screens/splash_screen.dart';
 import '/screens/pricing.dart';
 import '/widgets/add_transformation.dart';
 import '/screens/coach_screens/coach_cpanel_screen.dart';
@@ -117,6 +118,12 @@ class MyApp extends StatelessWidget {
             name: '/coach-login',
             page: () => const CoachLogin(),
             binding: CoachBinding(),
+            transition: Transition.upToDown,
+            transitionDuration: const Duration(milliseconds: 200)),
+        GetPage(
+            name: '/coach-signup',
+            page: () => const CoachSignUp(),
+            binding: CoachAuthBinding(),
             transition: Transition.upToDown,
             transitionDuration: const Duration(milliseconds: 200)),
         GetPage(

@@ -1,4 +1,5 @@
 import 'package:get/get.dart';
+import 'package:ifit/controllers/coach_authentication_controller.dart';
 import '/controllers/diet_controller.dart';
 import '/controllers/trainee_controller.dart';
 
@@ -10,6 +11,13 @@ class HomeBinding implements Bindings {
   @override
   void dependencies() {
     Get.lazyPut(() => HomeController());
+  }
+}
+
+class CoachAuthBinding implements Bindings {
+  @override
+  void dependencies() {
+    Get.put<CoachAuthController>(CoachAuthController());
   }
 }
 
