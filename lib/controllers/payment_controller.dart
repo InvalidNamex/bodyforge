@@ -43,7 +43,7 @@ class PaymentController extends GetxController {
       print('status code: ${response.statusCode}');
       print('response body: ${response.body}');
     } catch (e) {
-      print(e.toString());
+      print(e);
     }
   }
 }
