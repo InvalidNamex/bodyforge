@@ -1,3 +1,5 @@
+import 'package:ifit/controllers/payment_controller.dart';
+
 import '/controllers/coach_controller.dart';
 import '/controllers/diet_controller.dart';
 import '/controllers/home_controller.dart';
@@ -12,6 +14,7 @@ TraineeController traineeController = TraineeController();
 DietController dietController = DietController();
 WorkoutController workoutController = WorkoutController();
 CoachAuthController coachAuthController = CoachAuthController();
+PaymentController paymentController = PaymentController();
 double pageWidth = 768;
 Color accentColor = const Color(0xFFF5FF35);
 Color lightColor = const Color(0xFFFFFFFF);

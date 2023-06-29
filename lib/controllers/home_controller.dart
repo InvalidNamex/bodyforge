@@ -80,10 +80,4 @@ class HomeController extends GetxController {
     await getWebPrices();
     super.onInit();
   }
-
-  @override
-  void onClose() {
-    // Dispose the controller when the controller is closed
-    super.onClose();
-  }
 }

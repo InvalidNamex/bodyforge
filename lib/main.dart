@@ -93,7 +93,7 @@ class MyApp extends StatelessWidget {
         GetPage(
             name: '/pricing',
             page: () => const PricingScreen(),
-            binding: HomeBinding(),
+            binding: PaymentBinding(),
             transition: Transition.leftToRight,
             transitionDuration: const Duration(milliseconds: 200)),
         GetPage(

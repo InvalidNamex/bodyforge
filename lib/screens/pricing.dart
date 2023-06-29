@@ -95,7 +95,7 @@ Widget container(context, HomeController controller, index) {
         ),
         homeController.isLocal.value
             ? Text(
-                '${controller.webPriceList[index].planPrice.toString()} L.E',
+                '${controller.webPriceList[index].planPrice} L.E',
                 style: GoogleFonts.cairo(
                     color: lightColor,
                     fontSize: 24,
@@ -103,7 +103,7 @@ Widget container(context, HomeController controller, index) {
                 textAlign: TextAlign.center,
               )
             : Text(
-                '${controller.webPriceList[index].planPriceUSD.toString()} \$',
+                '${controller.webPriceList[index].planPriceUSD} \$',
                 style: GoogleFonts.cairo(
                     color: lightColor,
                     fontSize: 24,
@@ -113,6 +113,17 @@ Widget container(context, HomeController controller, index) {
         ElevatedButton(
             onPressed: () {
               //TODO: add subscription
+              homeController.isLocal.value
+                  ? paymentController.makeRequest(
+                      price:
+                          controller.webPriceList[index].planPrice.toDouble(),
+                      currency: 'EGP',
+                      description: controller.webPriceList[index].planTitle)
+                  : paymentController.makeRequest(
+                      price:
+                          controller.webPriceList[index].planPrice.toDouble(),
+                      currency: 'USD',
+                      description: controller.webPriceList[index].planTitle);
             },
             style: ButtonStyle(
                 backgroundColor: MaterialStateProperty.all(accentColor)),

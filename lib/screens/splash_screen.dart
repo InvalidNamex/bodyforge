@@ -12,19 +12,22 @@ class SplashScreen extends GetView<HomeController> {
 
   @override
   Widget build(BuildContext context) {
-    Future<String> getCountry() async {
-      final response = await http.get(Uri.parse("http://ip-api.com/json"));
-      if (response.statusCode == 200) {
-        final decodedResponse = json.decode(response.body);
-        final country = decodedResponse['country'];
-        return country;
-      } else {
-        throw Exception('Failed to fetch country');
-      }
-    }
+    // Future<String> getCountry() async {
+    //   final response = await http.get(Uri.parse("http://ip-api.com/json"));
+    //   if (response.statusCode == 200) {
+    //     final decodedResponse = json.decode(response.body);
+    //     final country = decodedResponse['country'];
+    //     return country;
+    //   } else {
+    //     throw Exception('Failed to fetch country');
+    //   }
+    // }
 
     Future.delayed(Duration.zero, () async {
-      print(await getCountry());
+      // String _x = await getCountry();
+      // if (_x != 'Egypt') {
+      //   homeController.isLocal(false);
+      // }
       await precacheImage(
         const AssetImage('images/bg-banner3.png'),
         Get.context!,
