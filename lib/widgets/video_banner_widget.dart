@@ -97,7 +97,7 @@ class _VideoBannerWidgetState extends State<VideoBannerWidget> {
                                       children: [
                                         ElevatedButton(
                                           onPressed: () =>
-                                              Get.toNamed('/coach-signup'),
+                                              Get.toNamed('/pricing'),
                                           style: ButtonStyle(
                                               backgroundColor:
                                                   MaterialStateProperty.all(

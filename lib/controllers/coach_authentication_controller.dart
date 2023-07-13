@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:ifit/constants.dart';
-import 'package:ifit/models/coach_model.dart';
+import 'package:ifit/models/web_pricing_model.dart';
+import '/constants.dart';
+import '/models/coach_model.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 class CoachAuthController extends GetxController {
@@ -11,11 +12,13 @@ class CoachAuthController extends GetxController {
   TextEditingController coachPassword = TextEditingController();
   TextEditingController coachEmail = TextEditingController();
   TextEditingController coachPhone = TextEditingController();
-  Future coachSignup(
-      {required coachName,
-      required coachPassword,
-      required coachEmail,
-      required coachPhone}) async {
+  Future coachSignup({
+    required coachName,
+    required coachPassword,
+    required coachEmail,
+    required coachPhone,
+    required planId,
+  }) async {
     final List _check =
         await supabase.from('coaches').select().eq('coach_email', coachEmail);
     if (_check.isEmpty) {
@@ -35,7 +38,15 @@ class CoachAuthController extends GetxController {
           ).toJson())
           .whenComplete(() async {
         await homeController.getWebPrices();
-        Get.toNamed('/pricing');
+        // TODO: get all data and proceed to payment page
+        WebPricingModel _x = homeController.webPriceList
+            .where((item) => item.planID == int.parse(planId))
+            .toList()[0];
+        await paymentController.payTabsRequest(
+            price: _x.planPrice.toDouble(),
+            currency: "EGP",
+            coachName: coachName,
+            planTitle: _x.planTitle);
       });
     } else {
       Get.defaultDialog(

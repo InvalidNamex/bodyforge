@@ -5,6 +5,7 @@ import '/widgets/scaffold_widget.dart';
 
 import '../constants.dart';
 import '../controllers/home_controller.dart';
+import 'coach_screens/coach_signup.dart';
 
 class PricingScreen extends GetView<HomeController> {
   const PricingScreen({Key? key}) : super(key: key);
@@ -86,7 +87,7 @@ Widget container(context, HomeController controller, index) {
           child: SingleChildScrollView(
             child: Text(
               controller.webPriceList[index].planText,
-              style: GoogleFonts.cairoPlay(
+              style: GoogleFonts.adamina(
                   color: lightColor, fontSize: 24, fontWeight: FontWeight.bold),
               textAlign: TextAlign.start,
               maxLines: 10,
@@ -105,33 +106,24 @@ Widget container(context, HomeController controller, index) {
             : Text(
                 '${controller.webPriceList[index].planPriceUSD} \$',
                 style: GoogleFonts.cairo(
-                    color: lightColor,
+                    color: accentColor,
                     fontSize: 24,
                     fontWeight: FontWeight.bold),
                 textAlign: TextAlign.center,
               ),
         ElevatedButton(
-            onPressed: () {
-              //TODO: add subscription
-              homeController.isLocal.value
-                  ? paymentController.makeRequest(
-                      price:
-                          controller.webPriceList[index].planPrice.toDouble(),
-                      currency: 'EGP',
-                      description: controller.webPriceList[index].planTitle)
-                  : paymentController.makeRequest(
-                      price:
-                          controller.webPriceList[index].planPrice.toDouble(),
-                      currency: 'USD',
-                      description: controller.webPriceList[index].planTitle);
-            },
-            style: ButtonStyle(
-                backgroundColor: MaterialStateProperty.all(accentColor)),
-            child: Text(
-              'Subscribe',
-              style: GoogleFonts.cairoPlay(
-                  color: darkColor, fontWeight: FontWeight.bold, fontSize: 18),
-            )),
+          style: ButtonStyle(
+            backgroundColor: MaterialStateProperty.all(accentColor),
+          ),
+          onPressed: () {
+            int id = controller.webPriceList[index].planID;
+            Get.toNamed('/coach-signup?id=$id');
+          },
+          child: Text(
+            'Coach with us',
+            style: TextStyle(color: darkColor, fontWeight: FontWeight.bold),
+          ),
+        ),
       ],
     ),
   );

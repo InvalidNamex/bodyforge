@@ -1,7 +1,7 @@
 import 'dart:async';
 
 import 'package:get/get.dart';
-import 'package:ifit/models/ad_banner_model.dart';
+import '/models/ad_banner_model.dart';
 import 'package:ifit/models/web_pricing_model.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
@@ -21,7 +21,7 @@ class HomeController extends GetxController {
   RxList<BookModel> bookList = RxList<BookModel>([]);
   RxList<AppModel> appList = RxList<AppModel>([]);
   RxBool isLocal = true.obs;
-  List<WebPricingModel> webPriceList = RxList<WebPricingModel>([]);
+  RxList<WebPricingModel> webPriceList = RxList<WebPricingModel>([]);
   Future getFeaturedCoaches() async {
     coachList.clear();
     final data =

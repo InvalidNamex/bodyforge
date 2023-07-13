@@ -163,20 +163,24 @@ Widget buildContent(context, CoachAuthController controller) => Center(
       ),
     );
 
-void signUp(CoachAuthController controller) {
+void signUp(CoachAuthController controller) async {
   if (controller.coachSignupForm.currentState!.validate()) {
-    try {
-      controller.coachSignup(
-          coachName: controller.coachName.text,
-          coachPassword: controller.coachPassword.text,
-          coachEmail: controller.coachEmail.text,
-          coachPhone: controller.coachPhone.text);
-      controller.coachName.clear();
-      controller.coachPassword.clear();
-      controller.coachEmail.clear();
-      controller.coachPhone.clear();
-    } catch (e) {
-      Get.snackbar('error occurred', e.toString());
+    String? id = Get.parameters['id'];
+    if (id != null || id != '') {
+      try {
+        controller.coachSignup(
+            coachName: controller.coachName.text,
+            coachPassword: controller.coachPassword.text,
+            coachEmail: controller.coachEmail.text,
+            coachPhone: controller.coachPhone.text,
+            planId: id);
+        controller.coachName.clear();
+        controller.coachPassword.clear();
+        controller.coachEmail.clear();
+        controller.coachPhone.clear();
+      } catch (e) {
+        Get.snackbar('error occurred', e.toString());
+      }
     }
   }
 }

@@ -1,4 +1,4 @@
-import 'package:ifit/controllers/payment_controller.dart';
+import '/controllers/payment_controller.dart';
 
 import '/controllers/coach_controller.dart';
 import '/controllers/diet_controller.dart';

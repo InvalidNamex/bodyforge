@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:ifit/models/pricing_model.dart';
-import 'package:ifit/models/transformation_model.dart';
+import '/models/pricing_model.dart';
+import '/models/transformation_model.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import '../constants.dart';
