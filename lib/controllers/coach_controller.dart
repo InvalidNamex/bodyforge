@@ -16,6 +16,7 @@ class CoachController extends GetxController {
   final RxBool isLoading = true.obs;
   CoachModel? coach;
   TextEditingController coachPassword = TextEditingController();
+  TextEditingController coachUserName = TextEditingController();
   TextEditingController clientName = TextEditingController();
   TextEditingController clientGoal = TextEditingController();
   TextEditingController clientJoinDate = TextEditingController();
@@ -26,6 +27,7 @@ class CoachController extends GetxController {
   final newClientFormKey = GlobalKey<FormState>();
   final changePasswordFormKey = GlobalKey<FormState>();
   final addPlanFormKey = GlobalKey<FormState>();
+  final coachLogin = GlobalKey<FormState>();
   TextEditingController planName = TextEditingController();
   TextEditingController planTitle = TextEditingController();
   TextEditingController planText = TextEditingController();

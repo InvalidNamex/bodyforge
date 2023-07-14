@@ -12,69 +12,97 @@ class CoachLogin extends GetView<CoachController> {
 
   @override
   Widget build(BuildContext context) {
-    controller.checkCoach();
     return MyScaffold(buildContent: buildContent(controller));
   }
 }
 
-Widget buildContent(CoachController controller) =>
-    Obx(() => controller.isLoading.value
-        ? Center(
-            child: SpinKitPumpingHeart(
-              color: accentColor,
+Widget buildContent(CoachController controller) => Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 10.0),
+      child: Form(
+        key: controller.coachLogin,
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            Image.asset(
+              'images/icon.png',
+              height: 40,
+              width: 40,
+              fit: BoxFit.contain,
             ),
-          )
-        : controller.coach == null
-            ? const NotFound()
-            : Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: [
-                  Center(
-                    child: SizedBox(
-                      height: 150.0,
-                      width: 150.0,
-                      child: Image.network(
-                        controller.coach!.coachImage,
-                        height: 150,
-                        width: 150,
-                      ),
-                    ),
-                  ),
-                  const SizedBox(
-                    height: 25,
-                  ),
-                  Row(
-                    children: [
-                      Text(
-                        'Coach:',
-                        style: GoogleFonts.aclonica(
-                            fontSize: 24, color: accentColor),
-                      ),
-                    ],
-                  ),
-                  const SizedBox(
-                    height: 25,
-                  ),
-                  TextFormField(
-                    style: TextStyle(color: lightColor),
-                    autofocus: true,
-                    onEditingComplete: () => controller.validatePassword(),
-                    obscureText: true,
-                    controller: controller.coachPassword,
-                    decoration: InputDecoration(
-                      border: OutlineInputBorder(
-                        borderSide: BorderSide(color: accentColor),
-                      ),
-                      hintText: 'Enter password',
-                      hintStyle: TextStyle(color: lightColor),
-                      labelText: 'Password',
-                      labelStyle: TextStyle(color: lightColor),
-                      prefixIcon: Icon(
-                        Icons.lock,
-                        color: accentColor,
-                      ),
-                    ),
-                  ),
-                ],
-              ));
+            const SizedBox(
+              height: 10,
+            ),
+            Center(
+              child: Text(
+                'Coach Login',
+                style: GoogleFonts.aclonica(color: lightColor, fontSize: 24),
+              ),
+            ),
+            const SizedBox(
+              height: 10,
+            ),
+            TextFormField(
+              style: TextStyle(color: lightColor),
+              autofocus: true,
+              controller: controller.coachUserName,
+              decoration: InputDecoration(
+                border: OutlineInputBorder(
+                  borderSide: BorderSide(color: accentColor),
+                ),
+                hintText: 'Enter user name',
+                hintStyle: TextStyle(color: lightColor),
+                labelText: 'Coach Name',
+                labelStyle: TextStyle(color: lightColor),
+                prefixIcon: Icon(
+                  Icons.person,
+                  color: accentColor,
+                ),
+              ),
+            ),
+            const SizedBox(
+              height: 10,
+            ),
+            TextFormField(
+              style: TextStyle(color: lightColor),
+              onEditingComplete: () => controller.validatePassword(),
+              obscureText: true,
+              controller: controller.coachPassword,
+              decoration: InputDecoration(
+                border: OutlineInputBorder(
+                  borderSide: BorderSide(color: accentColor),
+                ),
+                hintText: 'Enter password',
+                hintStyle: TextStyle(color: lightColor),
+                labelText: 'Password',
+                labelStyle: TextStyle(color: lightColor),
+                prefixIcon: Icon(
+                  Icons.lock,
+                  color: accentColor,
+                ),
+              ),
+            ),
+            const SizedBox(
+              height: 10,
+            ),
+            ElevatedButton(
+              style: ButtonStyle(
+                backgroundColor: MaterialStateProperty.all(accentColor),
+              ),
+              onPressed: () async {
+                //TODO: sign in
+                if (controller.coachLogin.currentState!.validate()) {
+                  await coachAuthController.loginCoach(
+                      controller.coachUserName.text,
+                      controller.coachPassword.text);
+                }
+              },
+              child: Text(
+                'LOG IN',
+                style: TextStyle(color: darkColor, fontWeight: FontWeight.bold),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );

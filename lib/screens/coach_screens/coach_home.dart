@@ -20,8 +20,15 @@ class CoachHome extends GetView<CoachController> {
           return true;
         },
         child: MyScaffold(
+          endDrawer: true,
           drawer: drawer(context, controller),
           buildContent: buildContent(context, controller),
+          appBar: AppBar(
+            backgroundColor: darkColor.withOpacity(0.8),
+            title:
+                Text('Clients', style: GoogleFonts.aclonica(color: lightColor)),
+            centerTitle: true,
+          ),
         ));
   }
 }
@@ -84,12 +91,6 @@ Widget buildContent(context, CoachController controller) =>
             child: SingleChildScrollView(
               child:
                   Column(mainAxisAlignment: MainAxisAlignment.start, children: [
-                AppBar(
-                  backgroundColor: darkColor.withOpacity(0.8),
-                  title: Text('Clients',
-                      style: GoogleFonts.aclonica(color: lightColor)),
-                  centerTitle: true,
-                ),
                 Obx(
                   () => controller.traineeList.isEmpty
                       ? Center(

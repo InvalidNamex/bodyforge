@@ -32,6 +32,26 @@ Widget buildContent(context, HomeController controller) {
         : SingleChildScrollView(
             child: Column(
               children: [
+                Container(
+                    color: Colors.black,
+                    height: 20,
+                    padding: const EdgeInsets.symmetric(horizontal: 10),
+                    width: MediaQuery.of(context).size.width,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        InkWell(
+                          onTap: () {
+                            Get.toNamed('/coach-login');
+                          },
+                          child: const Text(
+                            'coach login',
+                            style: TextStyle(color: Colors.white),
+                          ),
+                        )
+                      ],
+                    )),
                 SizedBox(
                   width: MediaQuery.of(context).size.width,
                   child: Stack(
